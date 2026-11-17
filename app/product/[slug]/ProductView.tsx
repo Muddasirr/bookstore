@@ -30,21 +30,22 @@ export function ProductView({ slug }: { slug: string }) {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6">
       <PageHead crumbs={[["Home", "/"], [cat, `/shop?cat=${p.category}`], [p.name, `/product/${p.slug}`]]} title="" />
-      <div className="mt-4 grid gap-10 lg:grid-cols-[1.1fr_1fr]">
+      <div className="mt-4 grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative grid h-[460px] place-items-center overflow-hidden rounded-[32px] bg-[radial-gradient(circle_at_50%_35%,#ffffff,#e9e2d4_70%)] lg:h-[560px]"
+          className="relative grid h-[400px] place-items-center overflow-hidden rounded-[28px] sm:h-[460px] sm:rounded-[32px] bg-[radial-gradient(circle_at_50%_35%,#ffffff,#e9e2d4_70%)] lg:h-[560px]"
         >
           {p.kind === "book" ? (
             <>
               <motion.div
-                className="cursor-grab touch-none active:cursor-grabbing [perspective:1200px]"
+                className="cursor-grab touch-pan-y scale-[.7] active:cursor-grabbing sm:scale-100 [perspective:1200px]"
                 onPan={(_, info) => rot.set(Math.max(-170, Math.min(40, rot.get() + info.delta.x * 0.6)))}
               >
                 <motion.div style={{ rotateY: rotS, rotateX: 4, transformStyle: "preserve-3d" }} animate={{ x: open ? 70 : 0 }}>
                   <Book3D
+                    inside
                     open={open}
                     color={p.color}
                     title={p.subject ?? p.name}
@@ -57,8 +58,8 @@ export function ProductView({ slug }: { slug: string }) {
                 </motion.div>
               </motion.div>
               <div className="absolute bottom-16 h-8 w-72 rounded-[50%] bg-ink/20 blur-2xl" />
-              <div className="absolute bottom-5 flex gap-2">
-                <button onClick={() => setOpen((o) => !o)} className="rounded-full bg-paper px-4 py-2 text-[12px] shadow ring-1 ring-line hover:ring-navy">
+              <div className="absolute inset-x-3 bottom-4 flex flex-wrap justify-center gap-2 sm:bottom-5">
+                <button onClick={() => setOpen((o) => !o)} className="rounded-full bg-paper px-4 py-2 text-[12px] shadow ring-1 ring-line hover:ring-brand">
                   {open ? "Close the cover" : "Look inside"}
                 </button>
                 {[
@@ -78,7 +79,7 @@ export function ProductView({ slug }: { slug: string }) {
               <ProductArt p={p} size={2} interactive={false} />
             </motion.div>
           )}
-          {p.badge && <span className="absolute right-5 top-5 rounded-full bg-mustard px-3 py-1 text-[11px] font-bold uppercase">{p.badge}</span>}
+          {p.badge && <span className="absolute right-5 top-5 rounded-full bg-accent px-3 py-1 text-[11px] font-bold uppercase">{p.badge}</span>}
         </motion.div>
 
         <motion.div initial="h" animate="s" transition={{ staggerChildren: 0.07, delayChildren: 0.2 }} className="flex flex-col">
@@ -90,12 +91,12 @@ export function ProductView({ slug }: { slug: string }) {
               {p.name}
             </h1>,
             <p key="3" className="mt-3 text-sm">
-              <span className="text-mustard-2">{"★".repeat(Math.round(p.rating))}</span> <span className="text-muted">{p.rating.toFixed(1)} · {p.reviews} reviews</span>
+              <span className="text-accent-2">{"★".repeat(Math.round(p.rating))}</span> <span className="text-muted">{p.rating.toFixed(1)} · {p.reviews} reviews</span>
             </p>,
             <div key="4" className="mt-6 flex items-baseline gap-3">
               <span className="font-display text-4xl font-semibold">{formatRs(p.price)}</span>
               {p.compareAt && <span className="text-muted line-through">{formatRs(p.compareAt)}</span>}
-              {p.compareAt && <span className="rounded-full bg-mustard/30 px-2 py-0.5 text-[12px] font-semibold">Save {formatRs(p.compareAt - p.price)}</span>}
+              {p.compareAt && <span className="rounded-full bg-accent/30 px-2 py-0.5 text-[12px] font-semibold">Save {formatRs(p.compareAt - p.price)}</span>}
             </div>,
             <p key="5" className="mt-5 max-w-lg text-[15px] leading-relaxed text-muted">
               {p.desc}
@@ -106,17 +107,17 @@ export function ProductView({ slug }: { slug: string }) {
                 ref={btn}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => addToCart(p, btn.current, qty)}
-                className="h-12 flex-1 rounded-full bg-navy px-8 text-[15px] font-semibold text-white transition-colors hover:bg-mustard hover:text-ink sm:flex-none"
+                className="h-12 flex-1 rounded-full bg-brand px-8 text-[15px] font-semibold text-white transition-colors hover:bg-accent hover:text-ink sm:flex-none"
               >
                 Add to cart · {formatRs(p.price * qty)}
               </motion.button>
-              <button onClick={() => toggleSaved(p.id)} className="grid h-12 w-12 place-items-center rounded-full ring-1 ring-line hover:ring-navy" aria-label="Save">
+              <button onClick={() => toggleSaved(p.id)} className="grid h-12 w-12 place-items-center rounded-full ring-1 ring-line hover:ring-brand" aria-label="Save">
                 <motion.span key={String(saved)} initial={{ scale: 0.3 }} animate={{ scale: 1 }} className={h && saved ? "text-berry" : ""}>
                   {h && saved ? "♥" : "♡"}
                 </motion.span>
               </button>
             </div>,
-            <div key="7" className="mt-8 grid grid-cols-3 gap-3 text-[12px]">
+            <div key="7" className="mt-8 grid grid-cols-3 gap-2 text-[11.5px] sm:gap-3 sm:text-[12px]">
               {["Free covering on full sets", "Delivery in 1–2 days", "Easy exchange in 7 days"].map((t) => (
                 <div key={t} className="rounded-2xl bg-paper p-3 ring-1 ring-line">
                   {t}
@@ -128,7 +129,7 @@ export function ProductView({ slug }: { slug: string }) {
                 {["Details", "Delivery", "Returns"].map((t, i) => (
                   <button key={t} onClick={() => setTab(i)} className={`relative pb-3 text-sm ${tab === i ? "text-ink" : "text-muted"}`}>
                     {t}
-                    {tab === i && <motion.span layoutId="pd-tab" className="absolute inset-x-0 -bottom-px h-0.5 bg-mustard" />}
+                    {tab === i && <motion.span layoutId="pd-tab" className="absolute inset-x-0 -bottom-px h-0.5 bg-accent" />}
                   </button>
                 ))}
               </div>
@@ -155,7 +156,7 @@ export function ProductView({ slug }: { slug: string }) {
       {related.length > 0 && (
         <section className="mt-24">
           <h2 className="font-display text-3xl">{p.cls ? `More for ${classLabel(p.cls)}` : "You might also need"}</h2>
-          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
             {related.map((r, i) => (
               <ProductCard key={r.id} p={r} index={i} />
             ))}

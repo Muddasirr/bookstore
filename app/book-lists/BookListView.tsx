@@ -38,7 +38,7 @@ export function BookListView() {
           >
             <label className="text-[11px] text-muted">
               School
-              <select value={school} onChange={(e) => setSchool(e.target.value)} className="mt-1 h-11 w-full rounded-xl border border-line bg-cream px-3 text-sm text-ink outline-none focus:border-navy">
+              <select value={school} onChange={(e) => setSchool(e.target.value)} className="mt-1 h-11 w-full rounded-xl border border-line bg-cream px-3 text-sm text-ink outline-none focus:border-brand">
                 <option value="">Select school</option>
                 {SCHOOLS.map((s) => (
                   <option key={s.id} value={s.id}>
@@ -49,7 +49,7 @@ export function BookListView() {
             </label>
             <label className="text-[11px] text-muted">
               Class
-              <select value={cls} onChange={(e) => setCls(e.target.value)} className="mt-1 h-11 w-full rounded-xl border border-line bg-cream px-3 text-sm text-ink outline-none focus:border-navy">
+              <select value={cls} onChange={(e) => setCls(e.target.value)} className="mt-1 h-11 w-full rounded-xl border border-line bg-cream px-3 text-sm text-ink outline-none focus:border-brand">
                 <option value="">Select class</option>
                 {CLASSES.map((c) => (
                   <option key={c} value={c}>
@@ -58,7 +58,7 @@ export function BookListView() {
                 ))}
               </select>
             </label>
-            <button disabled={!school || !cls} className="h-11 rounded-full bg-navy px-6 text-sm font-semibold text-white transition enabled:hover:bg-mustard enabled:hover:text-ink disabled:opacity-40">
+            <button disabled={!school || !cls} className="h-11 rounded-full bg-brand px-6 text-sm font-semibold text-white transition enabled:hover:bg-accent enabled:hover:text-ink disabled:opacity-40">
               Load list
             </button>
           </form>
@@ -114,9 +114,9 @@ function LoadedList({ schoolId, cls }: { schoolId: string; cls: string }) {
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="mt-6 grid items-start gap-6 lg:grid-cols-[1fr_340px]">
-      <div>
+      <div className="min-w-0">
         {/* banner shelf */}
-        <div className="relative overflow-hidden rounded-3xl p-6 text-white" style={{ background: `linear-gradient(135deg, ${school.color}, #1a0f0a)` }}>
+        <div className="relative overflow-hidden rounded-3xl p-5 text-white sm:p-6" style={{ background: `linear-gradient(135deg, ${school.color}, #1a0f0a)` }}>
           <div className="flex items-center gap-3">
             <motion.span initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 200 }} className="grid h-11 w-11 place-items-center rounded-full bg-paper text-[11px] font-bold text-ink">
               {school.short}
@@ -139,7 +139,7 @@ function LoadedList({ schoolId, cls }: { schoolId: string; cls: string }) {
                   transition={{ delay: r.on ? 0.15 + i * 0.09 : 0, type: "spring", stiffness: 220, damping: 16 }}
                   style={{ transformOrigin: "bottom" }}
                 >
-                  <BookSpine color={r.product.color} w={30} h={110 + (i % 3) * 14} title={r.product.subject} num={cls.slice(0, 2)} />
+                  <BookSpine color={r.product.color} w={26} h={110 + (i % 3) * 14} title={r.product.subject} num={cls.slice(0, 2)} />
                 </motion.div>
               ))}
             <div className="shelf-plank absolute inset-x-0 -bottom-3 h-3 rounded-sm" />
@@ -153,7 +153,7 @@ function LoadedList({ schoolId, cls }: { schoolId: string; cls: string }) {
             <div key={g} className="mt-8">
               <div className="flex items-center justify-between border-b border-line pb-2">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">{g}</p>
-                <button onClick={() => setRows((rs) => rs.map((r) => (r.group === g ? { ...r, on: !allOn } : r)))} className="text-[12px] text-navy underline">
+                <button onClick={() => setRows((rs) => rs.map((r) => (r.group === g ? { ...r, on: !allOn } : r)))} className="text-[12px] text-brand underline">
                   {allOn ? "Untick all" : "Tick all"}
                 </button>
               </div>
@@ -168,7 +168,7 @@ function LoadedList({ schoolId, cls }: { schoolId: string; cls: string }) {
                   >
                     <button
                       onClick={() => update(r.product.id, { on: !r.on })}
-                      className={`grid h-5 w-5 shrink-0 place-items-center rounded-md border-2 transition-colors ${r.on ? "border-navy bg-navy text-white" : "border-ink/30"}`}
+                      className={`grid h-5 w-5 shrink-0 place-items-center rounded-md border-2 transition-colors ${r.on ? "border-brand bg-brand text-white" : "border-ink/30"}`}
                       aria-label="Toggle"
                     >
                       <AnimatePresence>
@@ -179,7 +179,7 @@ function LoadedList({ schoolId, cls }: { schoolId: string; cls: string }) {
                         )}
                       </AnimatePresence>
                     </button>
-                    <span className="h-10 w-9 shrink-0">
+                    <span className="hidden h-10 w-9 shrink-0 sm:block">
                       <ProductArt p={r.product} size={0.22} interactive={false} />
                     </span>
                     <span className="min-w-0 flex-1">
@@ -190,7 +190,7 @@ function LoadedList({ schoolId, cls }: { schoolId: string; cls: string }) {
                       <span className="text-[11.5px] text-muted">{formatRs(r.product.price)} each</span>
                     </span>
                     <QtyStepper small qty={r.qty} onChange={(n) => update(r.product.id, { qty: Math.max(1, n) })} />
-                    <span className="w-20 text-right text-[14px] font-medium tabular-nums">{formatRs(r.product.price * r.qty)}</span>
+                    <span className="w-16 text-right text-[13px] font-medium tabular-nums sm:w-20 sm:text-[14px]">{formatRs(r.product.price * r.qty)}</span>
                   </motion.li>
                 ))}
               </ul>
@@ -209,9 +209,9 @@ function LoadedList({ schoolId, cls }: { schoolId: string; cls: string }) {
             { on: cover, set: setCover, t: `Cover every book, Rs 40 each`, d: "Clear plastic covering on every textbook before packing." },
             { on: labels, set: setLabels, t: "Name labels, Rs 200", d: "Printed with your child's name, class and section." },
           ].map((a) => (
-            <button key={a.t} onClick={() => a.set(!a.on)} className={`block w-full rounded-xl border p-3 text-left transition-colors ${a.on ? "border-mustard bg-mustard/10" : "border-line"}`}>
+            <button key={a.t} onClick={() => a.set(!a.on)} className={`block w-full rounded-xl border p-3 text-left transition-colors ${a.on ? "border-accent bg-accent/10" : "border-line"}`}>
               <span className="flex items-center gap-2 text-[13px] font-medium">
-                <span className={`grid h-4 w-4 place-items-center rounded border text-[10px] ${a.on ? "border-navy bg-navy text-white" : "border-ink/30"}`}>{a.on ? "✓" : ""}</span>
+                <span className={`grid h-4 w-4 place-items-center rounded border text-[10px] ${a.on ? "border-brand bg-brand text-white" : "border-ink/30"}`}>{a.on ? "✓" : ""}</span>
                 {a.t}
               </span>
               <span className="mt-1 block pl-6 text-[11.5px] text-muted">{a.d}</span>
@@ -242,7 +242,7 @@ function LoadedList({ schoolId, cls }: { schoolId: string; cls: string }) {
             active.slice(0, 8).forEach((r) => fly(rect, r.product.color));
             setTimeout(() => setOpen(true), 1200);
           }}
-          className="mt-4 h-12 w-full rounded-full bg-mustard text-sm font-semibold transition hover:brightness-95 disabled:opacity-40"
+          className="mt-4 h-12 w-full rounded-full bg-accent text-sm font-semibold transition hover:brightness-95 disabled:opacity-40"
         >
           Add {active.reduce((a, r) => a + r.qty, 0)} items to cart
         </motion.button>

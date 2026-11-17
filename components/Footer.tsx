@@ -1,37 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
 import { LogoMark } from "./Logo";
-import { BookSpine, spineSet } from "./BookSpine";
+import { SpineShelf } from "./SpineShelf";
 
-/** A full-width shelf of spines that drop in one by one, and bob when hovered. */
+/** A full-width shelf of spines that drop in one by one (CSS), and bob when hovered. */
 export function SpineRow({ seed = 3, count = 90 }: { seed?: number; count?: number }) {
-  const spines = spineSet(count, seed);
   return (
-    <div className="relative overflow-hidden">
-      <motion.div
-        className="flex items-end justify-center gap-[2px] px-2"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ staggerChildren: 0.012 }}
-      >
-        {spines.map((s, i) => (
-          <motion.div
-            key={i}
-            variants={{
-              hidden: { y: -220, opacity: 0, rotate: s.tilt * 3 },
-              show: { y: 0, opacity: 1, rotate: s.tilt, transition: { type: "spring", stiffness: 260, damping: 18 } },
-            }}
-            whileHover={{ y: -14, transition: { type: "spring", stiffness: 500, damping: 14 } }}
-            style={{ transformOrigin: s.tilt > 0 ? "bottom left" : "bottom right" }}
-          >
-            <BookSpine color={s.color} w={s.w} h={s.h} />
-          </motion.div>
-        ))}
-      </motion.div>
-      <div className="shelf-plank relative z-10 h-4" />
+    <div className="relative flex justify-center overflow-hidden">
+      <SpineShelf count={count} seed={seed} stagger={10} plank={null} className="px-2" />
     </div>
   );
 }
@@ -40,7 +17,8 @@ export function Footer() {
   return (
     <footer className="mt-24">
       <SpineRow />
-      <div className="bg-navy text-white/80">
+      <div className="shelf-plank relative z-10 h-4" />
+      <div className="bg-brand text-white/80">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
           <div>
             <LogoMark className="h-14 w-14" />
@@ -52,13 +30,13 @@ export function Footer() {
             { h: "Help", l: [["Delivery & pickup", "/#how"], ["Returns & exchanges", "/#how"], ["Uniform sizing", "/shop?cat=uniforms"], ["Your cart", "/cart"]] },
           ].map((c) => (
             <div key={c.h}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-mustard">{c.h}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">{c.h}</p>
               <ul className="mt-4 space-y-2 text-sm">
                 {c.l.map(([t, href]) => (
                   <li key={t}>
                     <Link href={href} className="group relative inline-block hover:text-white">
                       {t}
-                      <span className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-mustard transition-transform duration-300 group-hover:scale-x-100" />
+                      <span className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-300 group-hover:scale-x-100" />
                     </Link>
                   </li>
                 ))}
@@ -66,7 +44,7 @@ export function Footer() {
             </div>
           ))}
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-mustard">Visit us</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">Visit us</p>
             <p className="mt-4 text-sm leading-relaxed">
               Shop 12, University Road, Block 13,
               <br />

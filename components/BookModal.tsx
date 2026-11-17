@@ -34,13 +34,15 @@ export function BookModal({ product, onClose }: { product: Product | null; onClo
         <motion.div className="fixed inset-0 z-[70] grid place-items-center p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
           <div className="absolute inset-0 bg-ink/70 backdrop-blur-md" onClick={onClose} />
           <motion.div
-            className="relative grid w-full max-w-3xl overflow-hidden rounded-3xl bg-paper text-ink shadow-2xl md:grid-cols-2"
+            className="relative grid max-h-[92vh] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-3xl bg-paper text-ink shadow-2xl md:grid-cols-2"
+            data-lenis-prevent
             initial={{ y: 60, scale: 0.94 }}
             animate={{ y: 0, scale: 1 }}
             exit={{ y: 40, scale: 0.96, opacity: 0 }}
             transition={{ type: "spring", stiffness: 220, damping: 24 }}
           >
-            <div className="relative grid h-80 place-items-center overflow-hidden bg-[radial-gradient(circle_at_50%_40%,#fff,#e9e2d4)] md:h-[420px] [perspective:1100px]">
+            <div className="relative grid h-64 shrink-0 place-items-center overflow-hidden sm:h-80 bg-[radial-gradient(circle_at_50%_40%,#fff,#e9e2d4)] md:h-[420px] [perspective:1100px]">
+              <div className="scale-[.72] sm:scale-100" style={{ transformStyle: "preserve-3d" }}>
               <motion.div
                 initial={{ rotateY: 88, x: -120, rotateZ: -8 }}
                 animate={{ rotateY: open ? -18 : -24, x: open ? 60 : 0, rotateZ: 0 }}
@@ -48,6 +50,7 @@ export function BookModal({ product, onClose }: { product: Product | null; onClo
                 style={{ transformStyle: "preserve-3d" }}
               >
                 <Book3D
+                    inside
                   open={open}
                   color={product.color}
                   title={product.subject ?? product.name}
@@ -58,13 +61,14 @@ export function BookModal({ product, onClose }: { product: Product | null; onClo
                   d={30}
                 />
               </motion.div>
+              </div>
               <div className="absolute bottom-10 h-6 w-48 rounded-[50%] bg-ink/20 blur-xl" />
               <button onClick={() => setOpen((o) => !o)} className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-paper/80 px-3 py-1 text-[11px] text-muted shadow hover:text-ink">
                 {open ? "Close cover" : "Open cover"}
               </button>
             </div>
             <motion.div
-              className="flex flex-col p-7"
+              className="flex flex-col p-5 sm:p-7"
               initial="h"
               animate="s"
               transition={{ staggerChildren: 0.07, delayChildren: 0.25 }}
@@ -73,10 +77,10 @@ export function BookModal({ product, onClose }: { product: Product | null; onClo
                 <p key="a" className="text-[11px] uppercase tracking-[0.2em] text-muted">
                   {product.cls ? classLabel(product.cls) : product.category} · 2026–27 edition
                 </p>,
-                <h3 key="b" className="mt-2 font-display text-3xl">
+                <h3 key="b" className="mt-2 font-display text-2xl sm:text-3xl">
                   {product.name}
                 </h3>,
-                <p key="c" className="mt-1 text-sm text-mustard-2">
+                <p key="c" className="mt-1 text-sm text-accent-2">
                   {"★".repeat(Math.round(product.rating))} <span className="text-muted">({product.reviews})</span>
                 </p>,
                 <p key="d" className="mt-4 text-[14px] leading-relaxed text-muted">
@@ -87,7 +91,7 @@ export function BookModal({ product, onClose }: { product: Product | null; onClo
                   <button
                     ref={btn}
                     onClick={() => addToCart(product, btn.current)}
-                    className="ml-auto h-11 rounded-full bg-mustard px-5 text-sm font-semibold transition hover:brightness-95 active:scale-95"
+                    className="ml-auto h-11 rounded-full bg-accent px-5 text-sm font-semibold transition hover:brightness-95 active:scale-95"
                   >
                     Add to cart
                   </button>
@@ -101,7 +105,7 @@ export function BookModal({ product, onClose }: { product: Product | null; onClo
                 </motion.div>
               ))}
             </motion.div>
-            <button onClick={onClose} className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-sand hover:bg-line" aria-label="Close">
+            <button onClick={onClose} className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-sand/90 hover:bg-line" aria-label="Close">
               ✕
             </button>
           </motion.div>

@@ -29,12 +29,12 @@ export function DeliveryMeter({ subtotal }: { subtotal: number }) {
       </p>
       <div className="relative mt-2 h-2 overflow-hidden rounded-full bg-sand">
         <motion.div
-          className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-mustard to-leaf"
+          className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-accent to-leaf"
           animate={{ width: `${pct * 100}%` }}
           transition={{ type: "spring", stiffness: 120, damping: 20 }}
         />
         <motion.div
-          className="absolute -top-1 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-paper bg-navy"
+          className="absolute -top-1 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-paper bg-brand"
           animate={{ left: `${pct * 100}%` }}
           transition={{ type: "spring", stiffness: 120, damping: 20 }}
         />
@@ -152,7 +152,7 @@ export function CartDrawer() {
                 <Link
                   href="/checkout"
                   onClick={() => setOpen(false)}
-                  className="mt-4 flex h-12 items-center justify-center gap-2 rounded-full bg-mustard font-semibold text-ink transition hover:brightness-95"
+                  className="mt-4 flex h-12 items-center justify-center gap-2 rounded-full bg-accent font-semibold text-ink transition hover:brightness-95"
                 >
                   Checkout →
                 </Link>
@@ -182,7 +182,7 @@ function EmptyShelf({ onClose }: { onClose: () => void }) {
       </div>
       <p className="mt-6 font-display text-lg">Your shelf is empty</p>
       <p className="mt-1 text-sm text-muted">Load a school list or pick a few things to get started.</p>
-      <Link href="/book-lists" onClick={onClose} className="mt-5 rounded-full bg-navy px-5 py-2.5 text-sm text-white">
+      <Link href="/book-lists" onClick={onClose} className="mt-5 rounded-full bg-brand px-5 py-2.5 text-sm text-white">
         Find your book list
       </Link>
     </div>

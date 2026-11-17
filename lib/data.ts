@@ -87,13 +87,13 @@ const textbooks: Product[] = CLASSES.flatMap((c) =>
       kind: "book" as const,
       price,
       compareAt: onSale ? price + 120 : undefined,
-      color: SUBJECT_COLORS[subject] ?? "#13265c",
+      color: SUBJECT_COLORS[subject] ?? "#1d3a32",
       cls: c,
       subject,
       badge: onSale ? ("Sale" as const) : i === 2 && Number(c) % 3 === 0 ? ("New" as const) : undefined,
       desc: `The current-session ${subject} textbook for ${classLabel(c)}. Latest edition, checked against the prescribed list before packing. Covered and name-labelled on request.`,
       rating: 4.5 + ((i * 7 + c.length) % 5) / 10,
-      reviews: 12 + ((i * 13 + c.length * 7) % 90),
+      reviews: 12 + ((i * 37 + CLASSES.indexOf(c) * 53) % 90),
     };
   })
 );
@@ -109,31 +109,31 @@ const mk = (p: Omit<Product, "id" | "slug" | "rating" | "reviews"> & { rating?: 
 const others: Product[] = [
   // stationery
   mk({ name: "Single-line register, 80 pages", category: "stationery", kind: "register", price: 120, color: "#2a66d9", desc: "Sturdy 80-page single-line register with a laminated cover. School-approved ruling.", badge: "Bestseller" }),
-  mk({ name: "Single-line register, 200 pages", category: "stationery", kind: "register", price: 240, color: "#13265c", desc: "Thick 200-page register for the whole term, stitched spine that lays flat." }),
+  mk({ name: "Single-line register, 200 pages", category: "stationery", kind: "register", price: 240, color: "#1d3a32", desc: "Thick 200-page register for the whole term, stitched spine that lays flat." }),
   mk({ name: "Four-line English copy, 80 pages", category: "stationery", kind: "notebook", price: 110, color: "#1f7a4d", desc: "Four-line copy for early writers. Wide ruling, bright cover." }),
   mk({ name: "Drawing book, A4, 40 sheets", category: "stationery", kind: "notebook", price: 260, color: "#e2b100", desc: "Heavy cartridge paper that handles crayons, pencils and poster paint." }),
   mk({ name: "Colour pencils, 24 shades", category: "stationery", kind: "pencils", price: 690, color: "#1f7a4d", desc: "Smooth, break-resistant leads in 24 rich shades, in a stand-up box.", badge: "Bestseller" }),
   mk({ name: "Wax crayons, 16 colours", category: "stationery", kind: "crayons", price: 320, color: "#d6452b", desc: "Jumbo wax crayons for small hands. Non-toxic." }),
-  mk({ name: "HB pencils, pack of 12", category: "stationery", kind: "pens", price: 280, color: "#f4c21b", desc: "Classic HB graphite pencils with erasers, pre-sharpened." }),
+  mk({ name: "HB pencils, pack of 12", category: "stationery", kind: "pens", price: 280, color: "#f2945a", desc: "Classic HB graphite pencils with erasers, pre-sharpened." }),
   mk({ name: "Gel pens, blue, pack of 5", category: "stationery", kind: "pens", price: 350, color: "#1e4fd6", desc: "Quick-dry gel ink that doesn't smudge on registers." }),
-  mk({ name: "Geometry box, 9 pieces", category: "stationery", kind: "geometry", price: 650, color: "#13265c", accent: "#f4c21b", desc: "Compass, divider, protractor, set squares, ruler, pencil, eraser and sharpener in a metal tin." }),
+  mk({ name: "Geometry box, 9 pieces", category: "stationery", kind: "geometry", price: 650, color: "#1d3a32", accent: "#f2945a", desc: "Compass, divider, protractor, set squares, ruler, pencil, eraser and sharpener in a metal tin." }),
   mk({ name: "Scientific calculator", category: "stationery", kind: "calculator", price: 3200, compareAt: 3600, color: "#2b2f3a", desc: "Board-exam approved scientific calculator with 240 functions.", badge: "Sale" }),
   mk({ name: "Zip pencil pouch", category: "stationery", kind: "pouch", price: 450, color: "#2a8fe0", desc: "Wipe-clean pouch with a chunky zip and a name window.", badge: "New" }),
   mk({ name: "Eraser and sharpener set", category: "stationery", kind: "eraser", price: 120, color: "#e85d75", desc: "Dust-free eraser and a twin-hole sharpener." }),
   mk({ name: "Glue stick and scissors", category: "stationery", kind: "glue", price: 260, color: "#7a3fd6", desc: "Child-safe round-tip scissors and a 21g glue stick." }),
   // uniforms
-  mk({ name: "School shirt, half sleeve", category: "uniforms", kind: "shirt", price: 1250, color: "#ffffff", accent: "#13265c", desc: "Breathable poly-cotton shirt, stitched to school pattern. Sizes 20 to 40." }),
-  mk({ name: "School shirt, full sleeve", category: "uniforms", kind: "shirt", price: 1450, color: "#eaf2ff", accent: "#13265c", desc: "Winter full-sleeve shirt with reinforced cuffs." }),
-  mk({ name: "V-neck sweater", category: "uniforms", kind: "sweater", price: 2400, color: "#13265c", accent: "#f4c21b", desc: "Soft acrylic-wool sweater with school-colour trim.", badge: "New" }),
+  mk({ name: "School shirt, half sleeve", category: "uniforms", kind: "shirt", price: 1250, color: "#ffffff", accent: "#1d3a32", desc: "Breathable poly-cotton shirt, stitched to school pattern. Sizes 20 to 40." }),
+  mk({ name: "School shirt, full sleeve", category: "uniforms", kind: "shirt", price: 1450, color: "#eaf2ff", accent: "#1d3a32", desc: "Winter full-sleeve shirt with reinforced cuffs." }),
+  mk({ name: "V-neck sweater", category: "uniforms", kind: "sweater", price: 2400, color: "#1d3a32", accent: "#f2945a", desc: "Soft acrylic-wool sweater with school-colour trim.", badge: "New" }),
   mk({ name: "Grey school trousers", category: "uniforms", kind: "trousers", price: 1650, color: "#6b7280", desc: "Adjustable-waist trousers that grow with your child." }),
-  mk({ name: "Green PE kit shirt", category: "uniforms", kind: "shirt", price: 1100, color: "#1f7a4d", accent: "#f4c21b", desc: "Moisture-wicking PE shirt in house colours." }),
+  mk({ name: "Green PE kit shirt", category: "uniforms", kind: "shirt", price: 1100, color: "#1f7a4d", accent: "#f2945a", desc: "Moisture-wicking PE shirt in house colours." }),
   // bags
-  mk({ name: "Senior backpack with laptop sleeve", category: "bags", kind: "backpack", price: 4800, compareAt: 5400, color: "#2b3045", accent: "#f4c21b", desc: "Padded back, laptop sleeve, bottle pockets and a reflective strip.", badge: "Sale" }),
+  mk({ name: "Senior backpack with laptop sleeve", category: "bags", kind: "backpack", price: 4800, compareAt: 5400, color: "#2b3045", accent: "#f2945a", desc: "Padded back, laptop sleeve, bottle pockets and a reflective strip.", badge: "Sale" }),
   mk({ name: "Junior school backpack", category: "bags", kind: "backpack", price: 2950, color: "#2a8fe0", accent: "#ffffff", desc: "Lightweight backpack sized for little shoulders." }),
   mk({ name: "Trolley school bag", category: "bags", kind: "trolley", price: 6500, color: "#e2584a", accent: "#ffd27a", desc: "Detachable trolley with silent wheels for heavy book days.", badge: "New" }),
   mk({ name: "Steel water bottle, 600ml", category: "bags", kind: "bottle", price: 1450, color: "#1f7a4d", desc: "Double-wall insulated steel bottle. Cold for 12 hours." }),
   mk({ name: "Sport bottle, 750ml", category: "bags", kind: "bottle", price: 950, color: "#f08a24", desc: "BPA-free flip-top sport bottle." }),
-  mk({ name: "Two-tier lunch box", category: "bags", kind: "lunchbox", price: 1200, color: "#f4c21b", accent: "#2a66d9", desc: "Leak-proof two-tier lunch box with a spoon." }),
+  mk({ name: "Two-tier lunch box", category: "bags", kind: "lunchbox", price: 1200, color: "#f2945a", accent: "#2a66d9", desc: "Leak-proof two-tier lunch box with a spoon." }),
 ];
 
 export const PRODUCTS: Product[] = [...others, ...textbooks];
@@ -143,15 +143,15 @@ export const getById = (id: string) => PRODUCTS.find((p) => p.id === id);
 export const byCategory = (c: Category | "all") => (c === "all" ? PRODUCTS : PRODUCTS.filter((p) => p.category === c));
 
 export const DEPARTMENTS: { key: Category; title: string; blurb: string; tint: string }[] = [
-  { key: "textbooks", title: "Textbooks", blurb: "Every subject from Playgroup to Class 10, current session editions only.", tint: "#e9e2f4" },
-  { key: "uniforms", title: "Uniforms", blurb: "Shirts, sweaters, trousers and PE kits, stitched to pattern.", tint: "#dde8f6" },
+  { key: "textbooks", title: "Textbooks", blurb: "Every subject from Playgroup to Class 10, current session editions only.", tint: "#efe6dc" },
+  { key: "uniforms", title: "Uniforms", blurb: "Shirts, sweaters, trousers and PE kits, stitched to pattern.", tint: "#e3ebe6" },
   { key: "stationery", title: "Stationery", blurb: "Registers, geometry, colours and every little desk essential.", tint: "#e2efe1" },
   { key: "bags", title: "Bags & bottles", blurb: "Backpacks, trolleys, lunch boxes and bottles.", tint: "#f6e4dc" },
 ];
 
 export const SCHOOLS = [
   { id: "cgs", name: "Crescent Grammar School", short: "CGS", area: "Block 13-D", color: "#7a1f3a" },
-  { id: "nms", name: "Northfield Model School", short: "NMS", area: "Block 6", color: "#13265c" },
+  { id: "nms", name: "Northfield Model School", short: "NMS", area: "Block 6", color: "#1d3a32" },
   { id: "ana", name: "Al-Noor Academy", short: "ANA", area: "Block 2", color: "#1f7a4d" },
   { id: "bfs", name: "Bright Future School", short: "BFS", area: "Block 10-A", color: "#c2410c" },
   { id: "lps", name: "Lakeside Public School", short: "LPS", area: "Block 7", color: "#5b3fc4" },

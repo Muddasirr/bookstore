@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
-import { useState, type MouseEvent } from "react";
+import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
+import { useState, type PointerEvent as RPointerEvent } from "react";
 import { PRODUCTS, SHELF_GROUPS, classLabel, formatRs, type Product } from "@/lib/data";
 import { BookSpine, pseudo } from "../BookSpine";
 import { SectionTitle } from "./Departments";
@@ -13,26 +13,27 @@ export function ReadingRoom() {
   const [active, setActive] = useState<Product | null>(null);
   const g = SHELF_GROUPS.find((x) => x.key === group)!;
 
-  const lx = useMotionValue(50);
-  const ly = useMotionValue(30);
+  // Lamp glow: a pre-painted gradient that is only *moved* (transform), never repainted.
+  const lx = useMotionValue(400);
+  const ly = useMotionValue(120);
   const sx = useSpring(lx, { stiffness: 80, damping: 20 });
   const sy = useSpring(ly, { stiffness: 80, damping: 20 });
-  const lamp = useMotionTemplate`radial-gradient(520px circle at ${sx}% ${sy}%, rgba(255,214,140,.28), transparent 60%)`;
-  const onMove = (e: MouseEvent<HTMLDivElement>) => {
+  const onMove = (e: RPointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse") return;
     const r = e.currentTarget.getBoundingClientRect();
-    lx.set(((e.clientX - r.left) / r.width) * 100);
-    ly.set(((e.clientY - r.top) / r.height) * 100);
+    lx.set(e.clientX - r.left);
+    ly.set(e.clientY - r.top);
   };
 
   return (
-    <section className="relative overflow-hidden bg-navy py-24 text-white">
-      <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,#2449a8,transparent)] opacity-60" />
+    <section className="relative overflow-hidden bg-brand py-24 text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,#2f6d58,transparent)] opacity-60" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionTitle light eyebrow="The reading room" title="Pull a book off the shelf" italic={["shelf"]} sub="Every textbook we stock, shelved by class. Hover to lift one out, click to open it." />
-          <div className="relative flex rounded-full bg-white/10 p-1 ring-1 ring-white/15 backdrop-blur">
+          <SectionTitle light eyebrow="The reading room" title="Pull a book off the shelf" italic={["shelf"]} sub="Every textbook we stock, shelved by class. Lift one out and open it to look inside." />
+          <div className="no-scrollbar relative flex max-w-full overflow-x-auto rounded-full bg-white/10 p-1 ring-1 ring-white/15">
             {SHELF_GROUPS.map((s) => (
-              <button key={s.key} onClick={() => setGroup(s.key)} className={`relative rounded-full px-4 py-2 text-[13px] transition-colors ${group === s.key ? "text-ink" : "text-white/75 hover:text-white"}`}>
+              <button key={s.key} onClick={() => setGroup(s.key)} className={`relative shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-[12.5px] transition-colors sm:px-4 sm:text-[13px] ${group === s.key ? "text-ink" : "text-white/75 hover:text-white"}`}>
                 {group === s.key && <motion.span layoutId="shelf-tab" className="absolute inset-0 rounded-full bg-paper" transition={{ type: "spring", stiffness: 380, damping: 30 }} />}
                 <span className="relative">{s.label}</span>
               </button>
@@ -46,12 +47,15 @@ export function ReadingRoom() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
           style={{ transformPerspective: 1400 }}
-          className="relative mt-12"
+          className="relative mt-8 sm:mt-12"
         >
           {/* cabinet frame */}
-          <div onMouseMove={onMove} className="wood relative rounded-[28px] p-4 shadow-[0_60px_80px_-30px_rgba(0,0,0,.7)] sm:p-6">
-            <div className="wood-dark relative overflow-hidden rounded-[18px] px-3 pb-2 pt-6 shadow-[inset_0_20px_40px_rgba(0,0,0,.6)] sm:px-6">
-              <motion.div className="pointer-events-none absolute inset-0 z-20 mix-blend-screen" style={{ background: lamp }} />
+          <div onPointerMove={onMove} className="wood relative rounded-[22px] p-2.5 sm:rounded-[28px] sm:p-4 shadow-[0_60px_80px_-30px_rgba(0,0,0,.7)] sm:p-6">
+            <div className="wood-dark relative overflow-hidden rounded-[16px] px-2 pb-2 pt-8 shadow-[inset_0_20px_40px_rgba(0,0,0,.6)] sm:px-6">
+              <motion.div
+                className="pointer-events-none absolute left-0 top-0 z-20 hidden h-[1040px] w-[1040px] rounded-full mix-blend-screen will-change-transform [@media(hover:hover)]:block"
+                style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%", background: "radial-gradient(closest-side, rgba(255,214,140,.28), transparent)" }}
+              />
               <AnimatePresence mode="wait">
                 <motion.div key={group} className="grid gap-x-8 sm:grid-cols-2" exit={{ opacity: 1 }}>
                   {g.classes.map((c, i) => (
@@ -74,7 +78,7 @@ function Shelf({ cls, index, onPick }: { cls: string; index: number; onPick: (p:
   const deco = index % 4;
   return (
     <div className="relative">
-      <div className="flex h-[190px] items-end gap-[3px] px-2">
+      <div className="flex h-[170px] items-end gap-[3px] px-1 sm:h-[190px] sm:px-2">
         {books.map((b, i) => (
           <ShelfBook key={b.id} p={b} i={i} shelf={index} onPick={onPick} />
         ))}
@@ -90,22 +94,24 @@ function Shelf({ cls, index, onPick }: { cls: string; index: number; onPick: (p:
             <BookSpine color={b.color} w={24} h={128 + pseudo(i + index) * 20} title={b.subject} />
           </motion.div>
         ))}
-        <Deco kind={deco} delay={index * 0.12 + 0.5} />
+        <span className="hidden sm:contents">
+          <Deco kind={deco} delay={index * 0.12 + 0.5} />
+        </span>
         <motion.div
-          className="ml-auto flex flex-col items-end gap-[3px] pb-0"
+          className="ml-auto hidden flex-col items-end gap-[3px] pb-0 sm:flex"
           initial={{ x: 60, opacity: 0 }}
           animate={{ x: 0, opacity: 1, transition: { delay: index * 0.12 + 0.6 } }}
           exit={{ x: 60, opacity: 0, transition: { duration: 0.2 } }}
         >
           {[0, 1, 2, 3].map((k) => (
-            <div key={k} className="h-[10px] rounded-[2px]" style={{ width: 76 - k * 4, background: ["#2a66d9", "#1f7a4d", "#13265c", "#e2b100"][k], boxShadow: "inset 0 -2px 0 rgba(0,0,0,.25)" }} />
+            <div key={k} className="h-[10px] rounded-[2px]" style={{ width: 76 - k * 4, background: ["#2a66d9", "#1f7a4d", "#1d3a32", "#e2b100"][k], boxShadow: "inset 0 -2px 0 rgba(0,0,0,.25)" }} />
           ))}
         </motion.div>
       </div>
       <div className="shelf-plank relative h-4 rounded-sm" />
       <div className="mb-6 mt-2 flex items-center justify-between px-1">
-        <span className="rounded-[4px] bg-gradient-to-b from-[#f7d35a] to-[#d8a800] px-2.5 py-0.5 text-[11px] font-bold text-ink shadow">{classLabel(cls)}</span>
-        <Link href={`/shop?cat=textbooks&cls=${cls}`} className="group text-[12px] text-white/60 hover:text-mustard">
+        <span className="rounded-[4px] bg-gradient-to-b from-[#f6b183] to-[#e07a43] px-2.5 py-0.5 text-[11px] font-bold text-ink shadow">{classLabel(cls)}</span>
+        <Link href={`/shop?cat=textbooks&cls=${cls}`} className="group text-[12px] text-white/60 hover:text-accent">
           Shop {classLabel(cls)} <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
         </Link>
       </div>
@@ -115,8 +121,8 @@ function Shelf({ cls, index, onPick }: { cls: string; index: number; onPick: (p:
 
 function ShelfBook({ p, i, shelf, onPick }: { p: Product; i: number; shelf: number; onPick: (p: Product) => void }) {
   const [hover, setHover] = useState(false);
-  const h = 140 + pseudo(i * 5 + shelf) * 34;
-  const w = 26 + Math.round(pseudo(i * 3 + shelf) * 10);
+  const h = 128 + pseudo(i * 5 + shelf) * 32;
+  const w = 23 + Math.round(pseudo(i * 3 + shelf) * 8);
   const tipped = i === 2 && shelf % 2 === 1;
   return (
     <motion.button
@@ -167,7 +173,7 @@ function Deco({ kind, delay }: { kind: number; delay: number }) {
   if (kind === 0)
     return (
       <motion.svg {...anim} viewBox="0 0 40 60" className="ml-2 h-16 w-10 shrink-0">
-        {["#d6452b", "#f4c21b", "#1e4fd6"].map((c, i) => (
+        {["#d6452b", "#f2945a", "#1e4fd6"].map((c, i) => (
           <rect key={c} x={10 + i * 7} y={4 + i * 3} width="5" height="34" fill={c} transform={`rotate(${(i - 1) * 9} 20 40)`} />
         ))}
         <rect x="6" y="30" width="28" height="30" rx="3" fill="#1f7a4d" />
@@ -176,8 +182,8 @@ function Deco({ kind, delay }: { kind: number; delay: number }) {
   if (kind === 1)
     return (
       <motion.svg {...anim} viewBox="0 0 60 30" className="ml-2 h-8 w-16 shrink-0" whileHover={{ rotate: [-4, 4, 0] }}>
-        <rect x="2" y="8" width="56" height="20" rx="4" fill="#13265c" />
-        <rect x="6" y="2" width="48" height="8" rx="3" fill="#f4c21b" />
+        <rect x="2" y="8" width="56" height="20" rx="4" fill="#1d3a32" />
+        <rect x="6" y="2" width="48" height="8" rx="3" fill="#f2945a" />
       </motion.svg>
     );
   if (kind === 2)
@@ -207,10 +213,10 @@ function NoteCard() {
       transition={{ type: "spring", stiffness: 200, damping: 16, delay: 0.6 }}
       className="absolute -bottom-8 right-6 z-30 hidden w-64 rounded-md bg-[#fffaf0] p-4 text-ink shadow-2xl md:block"
     >
-      <span className="absolute -top-2 left-1/2 h-5 w-14 -translate-x-1/2 rotate-2 bg-mustard/70" />
+      <span className="absolute -top-2 left-1/2 h-5 w-14 -translate-x-1/2 rotate-2 bg-accent/70" />
       <p className="font-display text-lg">Have the school&apos;s list?</p>
       <p className="mt-1 text-[12.5px] text-muted">Load every title for your class in one go. Untick what you already own.</p>
-      <Link href="/book-lists" className="mt-3 inline-block text-sm font-semibold text-navy underline decoration-mustard decoration-2 underline-offset-4">
+      <Link href="/book-lists" className="mt-3 inline-block text-sm font-semibold text-brand underline decoration-accent decoration-2 underline-offset-4">
         Open book lists →
       </Link>
     </motion.div>

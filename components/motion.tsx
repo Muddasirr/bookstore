@@ -1,12 +1,13 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
+import { MotionConfig, motion, useInView } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Lenis from "lenis";
 
 export function SmoothScroll() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Native scrolling is better on touch devices and with reduced motion.
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return;
     const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
     let raf = 0;
     const loop = (t: number) => {
@@ -21,6 +22,10 @@ export function SmoothScroll() {
     };
   }, []);
   return null;
+}
+
+export function MotionProvider({ children }: { children: ReactNode }) {
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }
 
 export function Reveal({
@@ -61,7 +66,7 @@ export function SplitHeading({ text, className = "", italic = [] as string[] }: 
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
           <motion.span
-            className={`inline-block ${italic.includes(w.replace(/[.,]/g, "")) ? "italic text-mustard-2" : ""}`}
+            className={`inline-block ${italic.includes(w.replace(/[.,]/g, "")) ? "italic text-accent-2" : ""}`}
             variants={{ hidden: { y: "110%", rotate: 4 }, show: { y: 0, rotate: 0 } }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           >

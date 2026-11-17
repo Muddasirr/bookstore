@@ -21,7 +21,7 @@ export default function CartPage() {
       {h && items.length === 0 ? (
         <div className="mt-10 rounded-3xl bg-paper p-16 text-center ring-1 ring-line">
           <p className="font-display text-2xl">Nothing here yet</p>
-          <Link href="/shop" className="mt-5 inline-block rounded-full bg-navy px-6 py-3 text-sm text-white">
+          <Link href="/shop" className="mt-5 inline-block rounded-full bg-brand px-6 py-3 text-sm text-white">
             Start shopping
           </Link>
         </div>
@@ -35,12 +35,12 @@ export default function CartPage() {
                     layout
                     key={l.id}
                     exit={{ opacity: 0, x: -80, height: 0 }}
-                    className="group flex items-center gap-4 border-b border-line/70 p-4 last:border-0"
+                    className="group flex flex-wrap items-center gap-3 border-b border-line/70 p-3 last:border-0 sm:flex-nowrap sm:gap-4 sm:p-4"
                   >
                     <Link href={`/product/${l.p.slug}`} className="h-24 w-20 shrink-0 rounded-xl bg-cream">
                       <ProductArt p={l.p} size={0.5} />
                     </Link>
-                    <div className="min-w-0 flex-1">
+                    <div className="min-w-0 flex-1 basis-[calc(100%-6.5rem)] sm:basis-auto">
                       <p className="font-medium">{l.p.name}</p>
                       <p className="text-[13px] text-muted">{formatRs(l.p.price)} each</p>
                       <button onClick={() => remove(l.id)} className="mt-2 text-[12px] text-muted hover:text-berry">
@@ -48,7 +48,7 @@ export default function CartPage() {
                       </button>
                     </div>
                     <QtyStepper qty={l.qty} onChange={(n) => setQty(l.id, n)} />
-                    <p className="w-24 text-right font-semibold">{formatRs(l.p.price * l.qty)}</p>
+                    <p className="ml-auto w-24 text-right font-semibold">{formatRs(l.p.price * l.qty)}</p>
                   </motion.div>
                 ))}
             </AnimatePresence>
@@ -69,7 +69,7 @@ export default function CartPage() {
                 <span>{formatRs(subtotal + delivery)}</span>
               </div>
             </div>
-            <Link href="/checkout" className="mt-6 flex h-12 items-center justify-center rounded-full bg-mustard font-semibold transition hover:brightness-95">
+            <Link href="/checkout" className="mt-6 flex h-12 items-center justify-center rounded-full bg-accent font-semibold transition hover:brightness-95">
               Checkout →
             </Link>
           </aside>

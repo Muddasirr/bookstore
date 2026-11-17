@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #0e1a3d;
-  --color-navy: #13265c;
-  --color-navy-2: #1b3478;
-  --color-cream: #f7f3ec;
-  --color-paper: #fffdf8;
-  --color-sand: #ece5d8;
-  --color-mustard: #f4c21b;
-  --color-mustard-2: #e0aa00;
+  --color-ink: #15211d;
+  --color-brand: #1d3a32;
+  --color-brand-2: #2a5446;
+  --color-cream: #f4f1e8;
+  --color-paper: #fffdf9;
+  --color-sand: #e6e3d5;
+  --color-accent: #f2945a;
+  --color-accent-2: #d9703a;
   --color-wood: #5b3418;
   --color-wood-2: #7a4722;
   --color-wood-3: #3a2010;
-  --color-muted: #6b7088;
-  --color-line: #e3dccf;
+  --color-muted: #626d67;
+  --color-line: #dcd8c8;
   --color-berry: #7a1f3a;
   --color-leaf: #1f7a4d;
 
@@ -42,7 +42,7 @@ body {
 }
 
 ::selection {
-  background: var(--color-mustard);
+  background: var(--color-accent);
   color: var(--color-ink);
 }
 
@@ -169,4 +169,46 @@ body {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ---------- compositor-only loops (no JS per frame) ---------- */
+@keyframes sparkle {
+  0% { opacity: 0; transform: translateY(0); }
+  50% { opacity: 0.8; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+.sparkle { animation: sparkle 4s ease-in-out infinite; }
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { animation: marquee 38s linear infinite; }
+.marquee:hover { animation-play-state: paused; }
+
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.floaty { animation: floaty 4s ease-in-out infinite; }
+
+/* Spines drop onto a shelf once the shelf scrolls into view (.in is toggled by one observer). */
+@keyframes spineDrop {
+  0% { transform: translateY(-220px) rotate(var(--r0, 0deg)); opacity: 0; }
+  60% { opacity: 1; }
+  80% { transform: translateY(6px) rotate(var(--r, 0deg)); }
+  100% { transform: translateY(0) rotate(var(--r, 0deg)); opacity: 1; }
+}
+.spine {
+  opacity: 0;
+  transform-origin: bottom center;
+  transition: translate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.in > .spine {
+  animation: spineDrop 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+@media (hover: hover) {
+  .spine:hover { translate: 0 -12px; }
+  .group:hover .spine-lift { translate: 0 -8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spine { opacity: 1; }
+  .in > .spine { animation: none; }
+  .sparkle, .marquee, .floaty { animation: none; }
 }

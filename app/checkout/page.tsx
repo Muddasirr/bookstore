@@ -26,7 +26,7 @@ export default function Checkout() {
       <div className="mx-auto grid max-w-xl place-items-center px-4 py-24 text-center">
         <div className="[perspective:900px]">
           <motion.div initial={{ rotateY: -90, y: -60 }} animate={{ rotateY: -20, y: 0 }} transition={{ type: "spring", stiffness: 80, damping: 12 }} style={{ transformStyle: "preserve-3d" }}>
-            <Book3D color="#13265c" title="Order confirmed" label={done} num="✓" w={150} h={200} d={28} />
+            <Book3D color="#1d3a32" title="Order confirmed" label={done} num="✓" w={150} h={200} d={28} />
           </motion.div>
         </div>
         <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mt-10 font-display text-4xl">
@@ -35,13 +35,13 @@ export default function Checkout() {
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-3 text-muted">
           Order <b className="text-ink">{done}</b>. You&apos;ll get a WhatsApp message when it&apos;s on the way.
         </motion.p>
-        <Link href="/" className="mt-8 rounded-full bg-navy px-6 py-3 text-sm text-white">
+        <Link href="/" className="mt-8 rounded-full bg-brand px-6 py-3 text-sm text-white">
           Back to the shop
         </Link>
       </div>
     );
 
-  const input = "mt-1 h-11 w-full rounded-xl border border-line bg-cream px-3 text-sm outline-none transition focus:border-navy focus:bg-paper";
+  const input = "mt-1 h-11 w-full rounded-xl border border-line bg-cream px-3 text-sm outline-none transition focus:border-brand focus:bg-paper";
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -50,11 +50,11 @@ export default function Checkout() {
         <div className="rounded-3xl bg-paper p-6 ring-1 ring-line sm:p-8">
           <div className="relative flex justify-between">
             <div className="absolute left-4 right-4 top-4 h-[2px] bg-line">
-              <motion.div className="h-full origin-left bg-mustard" animate={{ scaleX: step / (STEPS.length - 1) }} transition={{ type: "spring", stiffness: 120, damping: 20 }} />
+              <motion.div className="h-full origin-left bg-accent" animate={{ scaleX: step / (STEPS.length - 1) }} transition={{ type: "spring", stiffness: 120, damping: 20 }} />
             </div>
             {STEPS.map((s, i) => (
               <button key={s} onClick={() => i < step && setStep(i)} className="relative flex flex-col items-center gap-2 text-[12px]">
-                <motion.span animate={{ backgroundColor: i <= step ? "#13265c" : "#ece5d8", color: i <= step ? "#fff" : "#0e1a3d", scale: i === step ? 1.15 : 1 }} className="grid h-8 w-8 place-items-center rounded-full font-semibold">
+                <motion.span animate={{ backgroundColor: i <= step ? "#1d3a32" : "#e6e3d5", color: i <= step ? "#fff" : "#15211d", scale: i === step ? 1.15 : 1 }} className="grid h-8 w-8 place-items-center rounded-full font-semibold">
                   {i < step ? "✓" : i + 1}
                 </motion.span>
                 {s}
@@ -95,7 +95,7 @@ export default function Checkout() {
                     <div className="flex gap-2 sm:col-span-2">
                       {(["delivery", "pickup"] as const).map((m) => (
                         <button type="button" key={m} onClick={() => setMode(m)} className="relative flex-1 rounded-xl border border-line p-4 text-left text-sm">
-                          {mode === m && <motion.span layoutId="mode" className="absolute inset-0 rounded-xl border-2 border-navy" />}
+                          {mode === m && <motion.span layoutId="mode" className="absolute inset-0 rounded-xl border-2 border-brand" />}
                           <b className="block">{m === "delivery" ? "Home delivery" : "Store pickup"}</b>
                           <span className="text-[12px] text-muted">{m === "delivery" ? "1–2 days across Karachi" : "Same evening, Gulshan store"}</span>
                         </button>
@@ -123,8 +123,8 @@ export default function Checkout() {
                   <div className="grid gap-2 sm:col-span-2">
                     {["Cash on delivery", "JazzCash", "Easypaisa", "Bank transfer"].map((m) => (
                       <button type="button" key={m} onClick={() => setPay(m)} className="relative flex items-center gap-3 rounded-xl border border-line p-4 text-left text-sm">
-                        {pay === m && <motion.span layoutId="pay" className="absolute inset-0 rounded-xl border-2 border-navy bg-navy/5" />}
-                        <span className={`relative grid h-4 w-4 place-items-center rounded-full border ${pay === m ? "border-navy" : "border-ink/30"}`}>{pay === m && <span className="h-2 w-2 rounded-full bg-navy" />}</span>
+                        {pay === m && <motion.span layoutId="pay" className="absolute inset-0 rounded-xl border-2 border-brand bg-brand/5" />}
+                        <span className={`relative grid h-4 w-4 place-items-center rounded-full border ${pay === m ? "border-brand" : "border-ink/30"}`}>{pay === m && <span className="h-2 w-2 rounded-full bg-brand" />}</span>
                         <span className="relative">{m}</span>
                       </button>
                     ))}
@@ -140,7 +140,7 @@ export default function Checkout() {
               ) : (
                 <span />
               )}
-              <button disabled={h && items.length === 0} className="h-12 rounded-full bg-navy px-8 text-sm font-semibold text-white transition hover:bg-mustard hover:text-ink disabled:opacity-40">
+              <button disabled={h && items.length === 0} className="h-12 rounded-full bg-brand px-8 text-sm font-semibold text-white transition hover:bg-accent hover:text-ink disabled:opacity-40">
                 {step < 2 ? "Continue" : `Place order · ${formatRs(subtotal + delivery)}`}
               </button>
             </div>

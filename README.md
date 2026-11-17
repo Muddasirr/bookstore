@@ -34,3 +34,17 @@ npm run build && npm start
 Next.js 15 · React 19 · Tailwind CSS 4 · motion (Framer Motion) · @react-three/fiber + drei · Lenis · zustand (cart persisted to localStorage).
 
 Catalogue data lives in `lib/data.ts`; all product imagery is generated (CSS-3D books + SVG illustrations), so there are no image assets to manage. Swap in real photos by extending `ProductArt`.
+
+## Theme
+
+Pine & apricot: tokens live in `app/globals.css` under `@theme` — `brand` (#1d3a32 pine), `brand-2`, `accent` (#f2945a apricot), `accent-2`, `cream`, `paper`, `sand`, `line`, `ink`, `muted`. Use them as Tailwind classes (`bg-brand`, `text-accent`, …).
+
+## Performance notes
+
+- Hero WebGL mounts on `requestIdleCallback`, stops rendering when off-screen or the tab is hidden, has no real-time shadow map (contact shadow only), capped DPR (1.25 on phones) and drops resolution automatically via `PerformanceMonitor`.
+- Infinite / decorative loops (sparkles, marquee, floating items, every spine shelf) are CSS keyframes on `transform`/`opacity`, triggered by one IntersectionObserver per shelf — no per-frame JS.
+- Bookshelf lamp glow moves a pre-painted gradient with `transform` (no repaint), mouse only.
+- 3D book "inside pages" only render where a cover can open; product cards stay light.
+- Shop paginates (12 at a time, "Load more").
+- Card tilt only on mouse devices; Lenis smooth scroll disabled on touch and reduced motion; `MotionConfig reducedMotion="user"` respects OS settings.
+- Pinned horizontal stationery scroll on desktop; native snap-scrolling row on phones/tablets.

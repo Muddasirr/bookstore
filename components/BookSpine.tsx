@@ -24,8 +24,8 @@ export function BookSpine({ color, title, num, w = 26, h = 120, className = "" }
       }}
     >
       <div className="w-full space-y-[3px] px-1">
-        <div className="h-[2px] bg-mustard/80" />
-        <div className="h-[1px] bg-mustard/60" />
+        <div className="h-[2px] bg-accent/80" />
+        <div className="h-[1px] bg-accent/60" />
       </div>
       {title && (
         <span
@@ -35,10 +35,10 @@ export function BookSpine({ color, title, num, w = 26, h = 120, className = "" }
           {title}
         </span>
       )}
-      {num && <span className="font-display text-[11px] font-bold text-mustard">{num}</span>}
+      {num && <span className="font-display text-[11px] font-bold text-accent">{num}</span>}
       <div className="w-full space-y-[3px] px-1">
-        <div className="h-[1px] bg-mustard/60" />
-        <div className="h-[2px] bg-mustard/80" />
+        <div className="h-[1px] bg-accent/60" />
+        <div className="h-[2px] bg-accent/80" />
       </div>
     </div>
   );

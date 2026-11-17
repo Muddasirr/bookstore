@@ -62,7 +62,7 @@ function HeaderInner() {
 
   return (
     <>
-      <div className="relative z-50 h-8 overflow-hidden bg-navy text-[12px] text-white/90">
+      <div className="relative z-50 h-8 overflow-hidden bg-brand text-[12px] text-white/90">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6">
           <div className="relative h-full flex-1 overflow-hidden">
             <AnimatePresence mode="wait">
@@ -80,14 +80,14 @@ function HeaderInner() {
           </div>
           <div className="hidden gap-5 sm:flex">
             <span>+92 300 000 0000</span>
-            <a className="text-mustard hover:underline" href="#">
+            <a className="text-accent hover:underline" href="#">
               Order on WhatsApp
             </a>
           </div>
         </div>
       </div>
       <motion.header
-        className="sticky top-0 z-40 border-b border-line/70 bg-cream/85 backdrop-blur-xl"
+        className="sticky top-0 z-40 border-b border-line/70 bg-cream/95 md:bg-cream/80 md:backdrop-blur-xl"
         animate={{ y: hidden ? "-100%" : "0%" }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         onMouseLeave={() => setHover(null)}
@@ -130,10 +130,10 @@ function HeaderInner() {
               {hover === n.label || (hover === "mega" && n.mega) ? (
                 <motion.span layoutId="navhover" className="absolute inset-0 -z-10 rounded-full bg-sand" transition={{ type: "spring", stiffness: 400, damping: 32 }} />
               ) : null}
-              {n.star && <span className="mr-1 text-mustard-2">✦</span>}
+              {n.star && <span className="mr-1 text-accent-2">✦</span>}
               {n.label}
               {n.mega && <span className="ml-1 inline-block text-[10px] opacity-60">▾</span>}
-              {isActive(n.href) && <motion.span layoutId="navactive" className="absolute inset-x-3 -bottom-0.5 h-[2px] rounded bg-mustard" />}
+              {isActive(n.href) && <motion.span layoutId="navactive" className="absolute inset-x-3 -bottom-0.5 h-[2px] rounded bg-accent" />}
             </Link>
           ))}
           <AnimatePresence>{hover === "mega" && <MegaMenu onClose={() => setHover(null)} />}</AnimatePresence>
@@ -147,6 +147,7 @@ function HeaderInner() {
               exit={{ height: 0 }}
             >
               <div className="grid gap-1 p-4">
+                <MobileSearch />
                 {NAV.map((n, i) => (
                   <motion.div key={n.label} initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: i * 0.04 }}>
                     <Link href={n.href} className="block rounded-lg px-3 py-2.5 text-[15px] hover:bg-sand">
@@ -167,7 +168,7 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
   const books = PRODUCTS.filter((p) => p.kind === "book");
   return (
     <motion.div
-      className="absolute left-4 right-4 top-full z-50 mt-1 overflow-hidden rounded-2xl border border-line bg-paper shadow-[0_30px_60px_-20px_rgba(14,26,61,.35)] sm:left-6 sm:right-6"
+      className="absolute left-4 right-4 top-full z-50 mt-1 overflow-hidden rounded-2xl border border-line bg-paper shadow-[0_30px_60px_-20px_rgba(21,33,29,.35)] sm:left-6 sm:right-6"
       initial={{ opacity: 0, y: -8, clipPath: "inset(0 0 100% 0 round 16px)" }}
       animate={{ opacity: 1, y: 0, clipPath: "inset(0 0 0% 0 round 16px)" }}
       exit={{ opacity: 0, y: -8, clipPath: "inset(0 0 100% 0 round 16px)" }}
@@ -182,7 +183,7 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
               <motion.div key={c} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.03 * i }}>
                 <Link
                   href={`/shop?cat=textbooks&cls=${c}`}
-                  className="block rounded-xl border border-line px-3 py-2.5 text-center text-[13px] transition hover:-translate-y-0.5 hover:border-navy hover:bg-navy hover:text-white"
+                  className="block rounded-xl border border-line px-3 py-2.5 text-center text-[13px] transition hover:-translate-y-0.5 hover:border-brand hover:bg-brand hover:text-white"
                 >
                   {classLabel(c)}
                 </Link>
@@ -228,7 +229,7 @@ function Search() {
       }}
     >
       <motion.div
-        animate={{ boxShadow: focus ? "0 0 0 4px rgba(244,194,27,.35)" : "0 0 0 0px rgba(244,194,27,0)" }}
+        animate={{ boxShadow: focus ? "0 0 0 4px rgba(242,148,90,.35)" : "0 0 0 0px rgba(242,148,90,0)" }}
         className="flex items-center rounded-full border border-line bg-paper pl-4 pr-1"
       >
         <input
@@ -239,7 +240,7 @@ function Search() {
           placeholder="Search books, uniforms, stationery"
           className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-muted"
         />
-        <button className="grid h-8 w-8 place-items-center rounded-full bg-navy text-white transition hover:scale-105" aria-label="Search">
+        <button className="grid h-8 w-8 place-items-center rounded-full bg-brand text-white transition hover:scale-105" aria-label="Search">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <circle cx="11" cy="11" r="7" />
             <path d="m20 20-3.5-3.5" />
@@ -272,6 +273,25 @@ function Search() {
   );
 }
 
+function MobileSearch() {
+  const router = useRouter();
+  const [q, setQ] = useState("");
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (q.trim()) router.push(`/shop?q=${encodeURIComponent(q.trim())}`);
+      }}
+      className="mb-2 flex items-center rounded-full border border-line bg-paper pl-4 pr-1 md:hidden"
+    >
+      <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search books, uniforms, stationery" className="h-11 flex-1 bg-transparent text-[15px] outline-none" />
+      <button className="grid h-9 w-9 place-items-center rounded-full bg-brand text-white" aria-label="Search">
+        →
+      </button>
+    </form>
+  );
+}
+
 function SavedButton() {
   const saved = useCart((s) => s.saved.length);
   const h = useHydrated();
@@ -297,14 +317,14 @@ function CartButton() {
       key={bump}
       animate={bump ? { scale: [1, 1.25, 0.92, 1], rotate: [0, -10, 6, 0] } : {}}
       transition={{ duration: 0.55 }}
-      className="relative flex items-center gap-1.5 rounded-full bg-navy px-3.5 py-2 text-sm text-white"
+      className="relative flex items-center gap-1.5 rounded-full bg-brand px-3.5 py-2 text-sm text-white"
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4ZM3 6h18M16 10a4 4 0 0 1-8 0" />
       </svg>
       <span className="hidden sm:inline">Cart</span>
       {h && count > 0 && (
-        <span className="absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-mustard px-1 text-[11px] font-bold text-ink">
+        <span className="absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1 text-[11px] font-bold text-ink">
           {count}
         </span>
       )}

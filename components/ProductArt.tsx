@@ -30,7 +30,7 @@ export function ProductArt({ p, size = 1, interactive = true }: { p: Product; si
     <div className="flex h-full w-full items-center justify-center">
       <svg
         viewBox="0 0 200 200"
-        className={`h-[78%] w-[78%] drop-shadow-[0_18px_18px_rgba(14,26,61,.18)] transition-transform duration-700 ease-[var(--ease-book)] ${
+        className={`h-[78%] w-[78%] drop-shadow-[0_18px_18px_rgba(21,33,29,.18)] transition-transform duration-700 ease-[var(--ease-book)] ${
           interactive ? "group-hover:-translate-y-1.5 group-hover:-rotate-2 group-hover:scale-[1.04]" : ""
         }`}
       >
@@ -44,7 +44,7 @@ function Art({ p }: { p: Product }) {
   const c = p.color;
   const d = shade(c, -40);
   const l = shade(c, 40);
-  const a = p.accent ?? "#f4c21b";
+  const a = p.accent ?? "#f2945a";
   switch (p.kind) {
     case "register":
     case "notebook":
@@ -67,7 +67,7 @@ function Art({ p }: { p: Product }) {
       return (
         <g>
           {Array.from({ length: 8 }).map((_, i) => {
-            const cols = ["#d6452b", "#f08a24", "#f4c21b", "#3d8b3d", "#118a8a", "#1e4fd6", "#5b3fc4", "#b8236a"];
+            const cols = ["#d6452b", "#f08a24", "#f2945a", "#3d8b3d", "#118a8a", "#1e4fd6", "#5b3fc4", "#b8236a"];
             const x = 58 + i * 11;
             const h = p.kind === "crayons" ? 46 : 70 + (i % 3) * 8;
             return (
@@ -133,7 +133,7 @@ function Art({ p }: { p: Product }) {
               width="14"
               height="15"
               rx="3"
-              fill={i % 4 === 3 ? "#f4c21b" : i > 12 ? "#d6452b" : "#4a5060"}
+              fill={i % 4 === 3 ? "#f2945a" : i > 12 ? "#d6452b" : "#4a5060"}
             />
           ))}
         </g>
@@ -229,7 +229,7 @@ function Art({ p }: { p: Product }) {
         <g>
           <rect x="40" y="86" width="70" height="40" rx="6" fill={c} transform="rotate(-10 75 106)" />
           <rect x="40" y="86" width="30" height="40" rx="6" fill="#1e4fd6" transform="rotate(-10 75 106)" />
-          <rect x="116" y="88" width="44" height="34" rx="6" fill="#f4c21b" />
+          <rect x="116" y="88" width="44" height="34" rx="6" fill="#f2945a" />
           <circle cx="130" cy="105" r="6" fill="#333" />
           <circle cx="148" cy="105" r="6" fill="#333" />
         </g>

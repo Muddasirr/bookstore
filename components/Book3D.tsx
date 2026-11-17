@@ -17,12 +17,14 @@ type Props = {
   h?: number;
   d?: number;
   open?: boolean;
+  /** render the contents page + inside cover (only needed where the cover can open) */
+  inside?: boolean;
   className?: string;
   style?: CSSProperties;
 };
 
 /** A real CSS 3D book: cover that hinges open, spine, page block, top edge, back. */
-export function Book3D({ color, title, label, num, w = 140, h = 190, d = 26, open, className = "", style }: Props) {
+export function Book3D({ color, title, label, num, w = 140, h = 190, d = 26, open, inside = false, className = "", style }: Props) {
   const dark = shade(color, -45);
   const light = shade(color, 30);
   const scale = w / 140;
@@ -34,6 +36,7 @@ export function Book3D({ color, title, label, num, w = 140, h = 190, d = 26, ope
       <div className="b-back" style={{ background: dark }} />
       <div className="b-pages" />
       <div className="b-top" />
+      {inside && (
       <div className="b-firstpage">
         <div className="flex h-full flex-col p-[10%] text-ink" style={{ fontSize: 9 * scale }}>
           <p className="font-display font-semibold" style={{ fontSize: 12 * scale }}>
@@ -50,6 +53,7 @@ export function Book3D({ color, title, label, num, w = 140, h = 190, d = 26, ope
           )}
         </div>
       </div>
+      )}
       <div className="b-spine" style={{ background: `linear-gradient(90deg, ${dark}, ${color} 40%, ${dark})` }}>
         <div className="mx-auto mt-[30%] h-[2px] w-3/4 bg-white/40" />
         <div className="mx-auto mt-1 h-[2px] w-3/4 bg-white/40" />
@@ -75,12 +79,13 @@ export function Book3D({ color, title, label, num, w = 140, h = 190, d = 26, ope
               </p>
             </div>
             {num && (
-              <p className="self-end font-display font-bold text-mustard drop-shadow" style={{ fontSize: 44 * scale, lineHeight: 1 }}>
+              <p className="self-end font-display font-bold text-accent drop-shadow" style={{ fontSize: 44 * scale, lineHeight: 1 }}>
                 {num}
               </p>
             )}
           </div>
         </div>
+        {inside && (
         <div className="b-cover-inside">
           <div className="flex h-full items-center justify-center p-4 text-center font-display text-ink/40" style={{ fontSize: 10 * scale }}>
             This book belongs to
@@ -88,6 +93,7 @@ export function Book3D({ color, title, label, num, w = 140, h = 190, d = 26, ope
             ____________
           </div>
         </div>
+        )}
       </div>
     </div>
   );

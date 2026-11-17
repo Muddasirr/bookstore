@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { AnimatePresence, LayoutGroup, motion, useScroll, useTransform } from "motion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PRODUCTS, SCHOOLS, buildList, classLabel, formatRs } from "@/lib/data";
 import { useCart } from "@/lib/store";
 import { Book3D } from "../Book3D";
@@ -14,9 +14,9 @@ import { SectionTitle } from "./Departments";
 /* ---------------- Ready-made class sets ---------------- */
 
 const SETS = [
-  { school: "cgs", cls: "3", bg: "from-[#1b3478] to-[#13265c]" },
-  { school: "nms", cls: "6", bg: "from-[#1f6b4a] to-[#0f4a33]" },
-  { school: "ana", cls: "KG", bg: "from-[#2c5bb8] to-[#1b3478]" },
+  { school: "cgs", cls: "3", bg: "from-[#2a5446] to-[#1d3a32]" },
+  { school: "nms", cls: "6", bg: "from-[#1e5a5e] to-[#123e40]" },
+  { school: "ana", cls: "KG", bg: "from-[#3f7a64] to-[#2a5446]" },
 ];
 
 export function ClassSets() {
@@ -27,7 +27,7 @@ export function ClassSets() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <SectionTitle eyebrow="Best value" title="Ready-made class sets" sub="The most-ordered lists this week. Open one to see every title and remove anything you don't need." />
         <Reveal>
-          <Link href="/book-lists" className="text-sm font-medium text-navy underline decoration-mustard decoration-2 underline-offset-4">
+          <Link href="/book-lists" className="text-sm font-medium text-brand underline decoration-accent decoration-2 underline-offset-4">
             See all schools
           </Link>
         </Reveal>
@@ -40,7 +40,7 @@ export function ClassSets() {
           const total = list.reduce((a, l) => a + l.product.price * l.qty, 0);
           return (
             <Reveal key={s.school} delay={i * 0.1}>
-              <div className="group overflow-hidden rounded-3xl border border-line bg-paper transition-shadow duration-500 hover:shadow-[0_30px_50px_-25px_rgba(14,26,61,.4)]">
+              <div className="group overflow-hidden rounded-3xl border border-line bg-paper transition-shadow duration-500 hover:shadow-[0_30px_50px_-25px_rgba(21,33,29,.4)]">
                 <div className={`relative h-52 overflow-hidden bg-gradient-to-br ${s.bg} [perspective:900px]`}>
                   <span className="absolute left-4 top-4 z-10 rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold tracking-wider text-white ring-1 ring-white/20">{school.short}</span>
                   <div className="absolute inset-0 flex items-end justify-center pb-6">
@@ -85,7 +85,7 @@ export function ClassSets() {
                       <p className="font-display text-xl font-semibold">{formatRs(total)}</p>
                     </div>
                     <div className="flex gap-2">
-                      <Link href={`/book-lists?school=${s.school}&cls=${s.cls}`} className="rounded-full border border-line px-4 py-2 text-[13px] hover:border-navy">
+                      <Link href={`/book-lists?school=${s.school}&cls=${s.cls}`} className="rounded-full border border-line px-4 py-2 text-[13px] hover:border-brand">
                         Review
                       </Link>
                       <button
@@ -94,7 +94,7 @@ export function ClassSets() {
                           const r = e.currentTarget.getBoundingClientRect();
                           books.slice(0, 5).forEach((b) => fly(r, b.product.color));
                         }}
-                        className="rounded-full bg-navy px-4 py-2 text-[13px] text-white transition hover:bg-mustard hover:text-ink active:scale-95"
+                        className="rounded-full bg-brand px-4 py-2 text-[13px] text-white transition hover:bg-accent hover:text-ink active:scale-95"
                       >
                         Add all
                       </button>
@@ -129,14 +129,14 @@ export function Featured() {
           <div className="flex gap-1 rounded-full bg-paper p-1 ring-1 ring-line">
             {TABS.map((t) => (
               <button key={t.k} onClick={() => setTab(t.k)} className={`relative rounded-full px-4 py-2 text-[13px] ${tab === t.k ? "text-white" : "text-ink/70"}`}>
-                {tab === t.k && <motion.span layoutId="feat-tab" className="absolute inset-0 rounded-full bg-navy" />}
+                {tab === t.k && <motion.span layoutId="feat-tab" className="absolute inset-0 rounded-full bg-brand" />}
                 <span className="relative">{t.l}</span>
               </button>
             ))}
           </div>
         </div>
         <LayoutGroup>
-          <motion.div layout className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <motion.div layout className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
             <AnimatePresence mode="popLayout">
               {items.map((p, i) => (
                 <ProductCard key={p.id} p={p} index={i} />
@@ -152,47 +152,95 @@ export function Featured() {
 /* ---------------- Pinned horizontal stationery cupboard ---------------- */
 
 export function StationeryCupboard() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-68%"]);
-  const bar = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   const items = PRODUCTS.filter((p) => p.category === "stationery");
-  return (
-    <section id="stationery-cupboard" ref={ref} className="relative h-[300vh]">
-      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
-          <SectionTitle eyebrow="The stationery cupboard" title="Desk essentials, all term long" italic={["term"]} sub="Registers, colours, geometry and the small things that go missing by October." />
-        </div>
-        <motion.div style={{ x }} className="mt-10 flex gap-5 pl-4 sm:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
-          {items.map((p, i) => (
-            <Link
-              key={p.id}
-              href={`/product/${p.slug}`}
-              className="group relative flex h-[340px] w-[270px] shrink-0 flex-col overflow-hidden rounded-3xl p-5"
-              style={{ background: i % 3 === 0 ? "#e2efe1" : i % 3 === 1 ? "#dde8f6" : "#f6e4dc" }}
-            >
-              <span className="font-display text-5xl text-ink/10">{String(i + 1).padStart(2, "0")}</span>
-              <div className="flex-1">
-                <ProductArt p={p} />
-              </div>
-              <div className="flex items-end justify-between gap-2">
-                <p className="text-[14px] font-medium leading-snug">{p.name}</p>
-                <span className="shrink-0 rounded-full bg-paper px-3 py-1 text-[13px] font-semibold">{formatRs(p.price)}</span>
-              </div>
-            </Link>
-          ))}
-          <Link href="/shop?cat=stationery" className="grid h-[340px] w-[270px] shrink-0 place-items-center rounded-3xl bg-navy text-white">
-            <span className="text-center font-display text-2xl">
-              See all
-              <br />
-              stationery →
-            </span>
-          </Link>
-        </motion.div>
-        <div className="mx-auto mt-10 h-1 w-full max-w-7xl px-4 sm:px-6">
-          <div className="h-full overflow-hidden rounded-full bg-line">
-            <motion.div style={{ width: bar }} className="h-full bg-mustard" />
+  const [wide, setWide] = useState<boolean | null>(null);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px) and (prefers-reduced-motion: no-preference)");
+    const on = () => setWide(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  const cards = (
+    <>
+      {items.map((p, i) => (
+        <Link
+          key={p.id}
+          href={`/product/${p.slug}`}
+          className="group relative flex h-[300px] w-[230px] shrink-0 snap-start flex-col overflow-hidden rounded-3xl p-5 sm:h-[340px] sm:w-[270px]"
+          style={{ background: ["#e2efe1", "#e3ebe6", "#f6e4dc"][i % 3] }}
+        >
+          <span className="font-display text-5xl text-ink/10">{String(i + 1).padStart(2, "0")}</span>
+          <div className="flex-1">
+            <ProductArt p={p} />
           </div>
+          <div className="flex items-end justify-between gap-2">
+            <p className="text-[14px] font-medium leading-snug">{p.name}</p>
+            <span className="shrink-0 rounded-full bg-paper px-3 py-1 text-[13px] font-semibold">{formatRs(p.price)}</span>
+          </div>
+        </Link>
+      ))}
+      <Link href="/shop?cat=stationery" className="grid h-[300px] w-[230px] shrink-0 snap-start place-items-center rounded-3xl bg-brand text-white sm:h-[340px] sm:w-[270px]">
+        <span className="text-center font-display text-2xl">
+          See all
+          <br />
+          stationery →
+        </span>
+      </Link>
+    </>
+  );
+  const title = (
+    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
+      <SectionTitle eyebrow="The stationery cupboard" title="Desk essentials, all term long" italic={["term"]} sub="Registers, colours, geometry and the small things that go missing by October." />
+    </div>
+  );
+  return wide ? <PinnedRow title={title}>{cards}</PinnedRow> : <SwipeRow title={title}>{cards}</SwipeRow>;
+}
+
+/** Desktop: the section pins and vertical scroll drives the row sideways (distance measured, not guessed). */
+function PinnedRow({ title, children }: { title: React.ReactNode; children: React.ReactNode }) {
+  const ref = useRef<HTMLElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+  const [dist, setDist] = useState(0);
+  useEffect(() => {
+    const measure = () => track.current && setDist(Math.max(0, track.current.scrollWidth - window.innerWidth + 48));
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (track.current) ro.observe(track.current);
+    return () => ro.disconnect();
+  }, []);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const x = useTransform(scrollYProgress, [0, 1], [0, -dist]);
+  return (
+    <section ref={ref} style={{ height: `calc(100vh + ${dist}px)` }} className="relative">
+      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
+        {title}
+        <motion.div ref={track} style={{ x }} className="mt-10 flex w-max gap-5 pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] will-change-transform">
+          {children}
+        </motion.div>
+        <div className="mx-auto mt-10 h-1 w-full max-w-7xl px-6">
+          <div className="h-full overflow-hidden rounded-full bg-line">
+            <motion.div style={{ scaleX: scrollYProgress }} className="h-full origin-left bg-accent" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Touch / small screens: a native, snap-scrolling row — no scroll hijacking. */
+function SwipeRow({ title, children }: { title: React.ReactNode; children: React.ReactNode }) {
+  const row = useRef<HTMLDivElement>(null);
+  const { scrollXProgress } = useScroll({ container: row });
+  return (
+    <section className="py-20">
+      {title}
+      <div ref={row} className="no-scrollbar mt-8 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 sm:scroll-px-6 sm:px-6" data-lenis-prevent>
+        {children}
+      </div>
+      <div className="mx-auto mt-6 h-1 max-w-7xl px-4 sm:px-6">
+        <div className="h-full overflow-hidden rounded-full bg-line">
+          <motion.div style={{ scaleX: scrollXProgress }} className="h-full origin-left bg-accent" />
         </div>
       </div>
     </section>
@@ -215,13 +263,13 @@ export function HowItWorks() {
       <SectionTitle eyebrow="How it works" title="How a list order works" sub="Most orders are packed the same day they come in." />
       <div ref={ref} className="relative mt-14 grid gap-10 md:grid-cols-3">
         <div className="absolute left-5 right-5 top-5 hidden h-[2px] bg-line md:block">
-          <motion.div style={{ scaleX: line }} className="h-full origin-left bg-mustard" />
+          <motion.div style={{ scaleX: line }} className="h-full origin-left bg-accent" />
         </div>
         {steps.map((s, i) => (
           <Reveal key={s.t} delay={i * 0.15}>
             <motion.div
-              initial={{ scale: 0.4, backgroundColor: "#ece5d8" }}
-              whileInView={{ scale: 1, backgroundColor: "#f4c21b" }}
+              initial={{ scale: 0.4, backgroundColor: "#e6e3d5" }}
+              whileInView={{ scale: 1, backgroundColor: "#f2945a" }}
               viewport={{ once: true, margin: "-120px" }}
               transition={{ delay: 0.3 + i * 0.35, type: "spring", stiffness: 260, damping: 14 }}
               className="relative grid h-10 w-10 place-items-center rounded-full font-display font-semibold"
@@ -247,13 +295,13 @@ export function Visit() {
     <section id="visit" className="mx-auto max-w-7xl scroll-mt-28 px-4 sm:px-6">
       <div ref={ref} className="grid overflow-hidden rounded-3xl bg-paper ring-1 ring-line md:grid-cols-2">
         <div className="relative h-72 overflow-hidden md:h-auto">
-          <motion.div style={{ y }} className="absolute -inset-y-10 inset-x-0 bg-navy">
+          <motion.div style={{ y }} className="absolute -inset-y-10 inset-x-0 bg-brand">
             {/* stylised storefront */}
             <svg viewBox="0 0 400 320" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
-              <rect width="400" height="320" fill="#13265c" />
-              <rect x="30" y="60" width="340" height="230" fill="#1b3478" />
-              <rect x="30" y="40" width="340" height="40" fill="#f4c21b" />
-              <text x="200" y="67" textAnchor="middle" fontFamily="Georgia" fontSize="20" fill="#0e1a3d" fontWeight="700">
+              <rect width="400" height="320" fill="#1d3a32" />
+              <rect x="30" y="60" width="340" height="230" fill="#2a5446" />
+              <rect x="30" y="40" width="340" height="40" fill="#f2945a" />
+              <text x="200" y="67" textAnchor="middle" fontFamily="Georgia" fontSize="20" fill="#15211d" fontWeight="700">
                 HONORABLE BOOKS
               </text>
               {Array.from({ length: 4 }).map((_, r) =>
@@ -271,12 +319,12 @@ export function Visit() {
               {[0, 1, 2, 3].map((r) => (
                 <rect key={r} x="44" y={134 + r * 46} width="312" height="5" fill="#7a4722" />
               ))}
-              <rect x="0" y="290" width="400" height="30" fill="#0e1a3d" />
+              <rect x="0" y="290" width="400" height="30" fill="#15211d" />
             </svg>
           </motion.div>
         </div>
         <div className="p-8 sm:p-10">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-mustard-2">Visit the store</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-2">Visit the store</p>
           <h2 className="mt-3 font-display text-4xl">Come browse the shelves</h2>
           <p className="mt-3 text-[14px] text-muted">Bring your list or your child for a uniform fitting. Books can be covered while you wait.</p>
           <dl className="mt-6 space-y-4 text-[14px]">
@@ -292,7 +340,7 @@ export function Visit() {
             ))}
           </dl>
           <div className="mt-7 flex flex-wrap gap-3">
-            <a href="#" className="rounded-full bg-mustard px-5 py-2.5 text-sm font-semibold transition hover:brightness-95">
+            <a href="#" className="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold transition hover:brightness-95">
               Get directions
             </a>
             <a href="#" className="rounded-full bg-leaf px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110">

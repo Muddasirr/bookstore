@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { ContactShadows, Float, RoundedBox } from "@react-three/drei";
+import { ContactShadows, Float, PerformanceMonitor, RoundedBox } from "@react-three/drei";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -27,13 +27,13 @@ function coverTexture(color: string, title: string, sub: string, num: string) {
   g.fillStyle = "#fff";
   g.font = "600 64px Georgia";
   title.split("\n").forEach((l, i) => g.fillText(l, 70, 170 + i * 72));
-  g.fillStyle = "#f4c21b";
+  g.fillStyle = "#f2945a";
   g.font = "bold 220px Georgia";
   g.textAlign = "right";
   g.fillText(num, 470, 630);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
-  t.anisotropy = 8;
+  t.anisotropy = 4;
   return t;
 }
 
@@ -44,7 +44,7 @@ function pageTexture() {
   const g = c.getContext("2d")!;
   g.fillStyle = "#fffaf0";
   g.fillRect(0, 0, 512, 680);
-  g.fillStyle = "#13265c";
+  g.fillStyle = "#1d3a32";
   g.font = "600 46px Georgia";
   g.fillText("Contents", 50, 100);
   g.font = "26px Georgia";
@@ -53,7 +53,7 @@ function pageTexture() {
     g.fillStyle = "#3a4466";
     g.fillText(t, 50, y);
     g.fillText(String((i + 1) * 9), 430, y);
-    g.strokeStyle = "rgba(19,38,92,.25)";
+    g.strokeStyle = "rgba(29,58,50,.25)";
     g.setLineDash([3, 6]);
     g.beginPath();
     g.moveTo(60 + g.measureText(t).width, y);
@@ -72,7 +72,7 @@ function insideTexture() {
   const g = c.getContext("2d")!;
   g.fillStyle = "#efe4cc";
   g.fillRect(0, 0, 256, 340);
-  g.fillStyle = "rgba(19,38,92,.45)";
+  g.fillStyle = "rgba(29,58,50,.45)";
   g.font = "italic 20px Georgia";
   g.textAlign = "center";
   g.fillText("This book belongs to", 128, 160);
@@ -131,7 +131,7 @@ function Book({ color, title, sub, num, w = 1.6, d = 2.1, t = 0.28, position, ro
   return (
     <group ref={group} position={position} rotation={rotation} visible={false}>
       {/* page block */}
-      <mesh castShadow receiveShadow position={[0.02, 0, 0]}>
+      <mesh position={[0.02, 0, 0]}>
         <boxGeometry args={[w - 0.08, t - cover * 2, d - 0.08]} />
         <meshStandardMaterial color="#f4ecd9" roughness={0.95} />
       </mesh>
@@ -142,17 +142,17 @@ function Book({ color, title, sub, num, w = 1.6, d = 2.1, t = 0.28, position, ro
         </mesh>
       )}
       {/* back cover */}
-      <mesh castShadow receiveShadow position={[0, -t / 2 + cover / 2, 0]}>
+      <mesh position={[0, -t / 2 + cover / 2, 0]}>
         <boxGeometry args={[w, cover, d]} />
         <meshStandardMaterial color={color} roughness={0.6} />
       </mesh>
       {/* spine */}
-      <RoundedBox args={[0.07, t, d]} radius={0.03} position={[-w / 2 + 0.02, 0, 0]} castShadow>
+      <RoundedBox args={[0.07, t, d]} radius={0.03} position={[-w / 2 + 0.02, 0, 0]}>
         <meshStandardMaterial color={new THREE.Color(color).multiplyScalar(0.8)} roughness={0.5} />
       </RoundedBox>
       {/* front cover on a hinge */}
       <group ref={hinge} position={[-w / 2, t / 2 - cover / 2, 0]}>
-        <mesh castShadow position={[w / 2, 0, 0]} material={coverMats}>
+        <mesh position={[w / 2, 0, 0]} material={coverMats}>
           <boxGeometry args={[w, cover, d]} />
         </mesh>
       </group>
@@ -161,20 +161,20 @@ function Book({ color, title, sub, num, w = 1.6, d = 2.1, t = 0.28, position, ro
 }
 
 function PencilCup({ position }: { position: [number, number, number] }) {
-  const pencils = ["#d6452b", "#f4c21b", "#1e4fd6", "#1f7a4d"];
+  const pencils = ["#d6452b", "#f2945a", "#1e4fd6", "#1f7a4d"];
   return (
     <group position={position}>
-      <mesh castShadow receiveShadow position={[0, 0.45, 0]}>
+      <mesh position={[0, 0.45, 0]}>
         <cylinderGeometry args={[0.36, 0.32, 0.9, 40, 1, true]} />
-        <meshStandardMaterial color="#13265c" roughness={0.35} side={THREE.DoubleSide} />
+        <meshStandardMaterial color="#1d3a32" roughness={0.35} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[0, 0.02, 0]}>
         <cylinderGeometry args={[0.32, 0.32, 0.04, 32]} />
-        <meshStandardMaterial color="#0e1a3d" />
+        <meshStandardMaterial color="#15211d" />
       </mesh>
       {pencils.map((c, i) => (
         <group key={c} position={[Math.cos(i * 1.7) * 0.14, 0.75, Math.sin(i * 1.7) * 0.14]} rotation={[Math.sin(i) * 0.18, 0, Math.cos(i * 2) * 0.2]}>
-          <mesh castShadow>
+          <mesh>
             <cylinderGeometry args={[0.045, 0.045, 1.1 + i * 0.08, 6]} />
             <meshStandardMaterial color={c} roughness={0.4} />
           </mesh>
@@ -188,7 +188,7 @@ function PencilCup({ position }: { position: [number, number, number] }) {
   );
 }
 
-function Scene({ open }: { open: boolean }) {
+function Scene({ open, still }: { open: boolean; still: boolean }) {
   const rig = useRef<THREE.Group>(null);
   useFrame((_, dt) => {
     if (!rig.current) return;
@@ -198,21 +198,21 @@ function Scene({ open }: { open: boolean }) {
   return (
     <>
       <ambientLight intensity={0.55} />
-      <directionalLight position={[4, 7, 5]} intensity={2.2} castShadow shadow-mapSize={[1024, 1024]} />
-      <pointLight position={[-4, 2, -2]} intensity={18} color="#f4c21b" />
-      <pointLight position={[3, 1, 4]} intensity={6} color="#9db4ff" />
+      <directionalLight position={[4, 7, 5]} intensity={2.2} shadow-mapSize={[1024, 1024]} />
+      <pointLight position={[-4, 2, -2]} intensity={18} color="#f2945a" />
+      <pointLight position={[3, 1, 4]} intensity={6} color="#b8e0cf" />
       <group ref={rig} position={[0, -0.9, 0]}>
-        <Float speed={1.4} rotationIntensity={0.12} floatIntensity={0.35}>
+        <Float speed={still ? 0 : 1.4} rotationIntensity={0.12} floatIntensity={0.35}>
           <Book color="#2a6b4f" title={"General\nScience"} sub="Class 6" num="6" position={[0, 0.14, 0]} rotation={[0, 0.12, 0]} delay={0.1} w={1.9} d={2.4} />
           <Book color="#c98a12" title={"Social\nStudies"} sub="Class 5" num="5" position={[0.05, 0.43, 0.02]} rotation={[0, -0.1, 0]} delay={0.35} w={1.8} d={2.3} />
           <Book color="#1e4fd6" title={"Physics"} sub="Matric" num="9" position={[-0.05, 0.72, 0]} rotation={[0, 0.2, 0]} delay={0.6} w={1.7} d={2.2} />
           <Book color="#d6452b" title={"Mathe-\nmatics"} sub="Class 5" num="5" position={[0, 1.02, 0.05]} rotation={[0, -0.05, 0]} delay={0.85} openable open={open} w={1.6} d={2.1} />
         </Float>
-        <Float speed={1.1} rotationIntensity={0.1} floatIntensity={0.25}>
-          <Book color="#1b3478" title={"English\nReader"} sub="Class 5" num="5" position={[0.9, 1.25, -1.6]} rotation={[Math.PI / 2 - 0.1, 0, -0.18]} delay={1.05} w={1.5} d={2.1} t={0.3} />
+        <Float speed={still ? 0 : 1.1} rotationIntensity={0.1} floatIntensity={0.25}>
+          <Book color="#2a5446" title={"English\nReader"} sub="Class 5" num="5" position={[0.9, 1.25, -1.6]} rotation={[Math.PI / 2 - 0.1, 0, -0.18]} delay={1.05} w={1.5} d={2.1} t={0.3} />
         </Float>
         <PencilCup position={[2.15, 0, 0.5]} />
-        <ContactShadows position={[0, 0, 0]} opacity={0.55} scale={9} blur={2.6} far={3} resolution={256} color="#050b22" />
+        <ContactShadows position={[0, 0, 0]} opacity={0.55} scale={9} blur={2.6} far={3} resolution={256} frames={still ? 1 : Infinity} color="#050b22" />
       </group>
     </>
   );
@@ -221,6 +221,21 @@ function Scene({ open }: { open: boolean }) {
 export default function HeroScene() {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [dpr, setDpr] = useState(1.5);
+  const [still, setStill] = useState(false);
+  // Reduced motion: render continuously only briefly (intro / cover toggle), then on demand.
+  const [awake, setAwake] = useState(true);
+  useEffect(() => {
+    setAwake(true);
+    if (!still) return;
+    const t = setTimeout(() => setAwake(false), 2600);
+    return () => clearTimeout(t);
+  }, [open, still]);
+  useEffect(() => {
+    const small = window.matchMedia("(max-width: 640px)").matches;
+    setDpr(Math.min(window.devicePixelRatio || 1, small ? 1.25 : 1.75));
+    setStill(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
   const wrap = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { rootMargin: "100px" });
@@ -246,8 +261,12 @@ export default function HeroScene() {
   }, []);
   return (
     <div ref={wrap} className="relative h-full w-full cursor-pointer" onClick={() => setOpen((o) => !o)} title="Click to open / close the book">
-      <Canvas shadows frameloop={visible ? "always" : "never"} dpr={[1, 1.75]} gl={{ antialias: true, powerPreference: "high-performance" }} camera={{ position: [0.6, 3.6, 6.2], fov: 34 }} onCreated={({ camera }) => camera.lookAt(0, 0.2, 0)}>
-        <Scene open={open} />
+      <Canvas
+        frameloop={!visible ? "never" : still && !awake ? "demand" : "always"}
+        dpr={dpr}
+        gl={{ antialias: dpr < 1.5, powerPreference: "high-performance", stencil: false }} camera={{ position: [0.6, 3.6, 6.2], fov: 34 }} onCreated={({ camera }) => camera.lookAt(0, 0.2, 0)}>
+        <PerformanceMonitor onDecline={() => setDpr((d) => Math.max(1, d - 0.5))} />
+        <Scene open={open} still={still} />
       </Canvas>
     </div>
   );
