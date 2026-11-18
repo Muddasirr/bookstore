@@ -15,7 +15,7 @@ export function useAddToCart() {
   const fly = useCart((s) => s.fly);
   return (p: Product, el: HTMLElement | null, qty = 1) => {
     add(p.id, qty);
-    if (el) fly(el.getBoundingClientRect(), p.color === "#ffffff" ? "#1d3a32" : p.color);
+    if (el) fly(el.getBoundingClientRect(), p.color === "#ffffff" ? "#13265c" : p.color);
   };
 }
 
@@ -56,7 +56,7 @@ export function ProductCard({ p, index = 0 }: { p: Product; index?: number }) {
           my.set(0.5);
         }}
         style={{ rotateX: rx, rotateY: ry }}
-        className="relative overflow-hidden rounded-2xl border border-line/80 bg-paper transition-shadow duration-500 hover:shadow-[0_30px_50px_-25px_rgba(21,33,29,.35)]"
+        className="relative overflow-hidden rounded-2xl border border-line/80 bg-paper transition-shadow duration-500 hover:shadow-[0_30px_50px_-25px_rgba(14,26,61,.35)]"
       >
         <Link href={`/product/${p.slug}`} className="block">
           <div className="relative h-44 bg-gradient-to-b from-[#f1ece2] to-[#e9e3d6] sm:h-60">

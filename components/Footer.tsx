@@ -51,12 +51,12 @@ export function Footer() {
               Gulshan-e-Iqbal, Karachi
             </p>
             <p className="mt-3 text-sm">+92 300 000 0000</p>
-            <p className="text-sm">hello@honorable.pk</p>
+            <p className="text-sm">hello@asifbooks.pk</p>
           </div>
         </div>
         <div className="border-t border-white/10">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-xs text-white/50 sm:px-6">
-            <p>© 2026 Honorable Books & Uniforms. All rights reserved.</p>
+            <p>© 2026 Asif Book Store. All rights reserved.</p>
             <div className="flex gap-2">
               {["Cash on delivery", "JazzCash", "Easypaisa", "Bank transfer"].map((m) => (
                 <span key={m} className="rounded-md border border-white/15 px-2 py-1">

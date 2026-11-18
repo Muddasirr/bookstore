@@ -27,7 +27,7 @@ function coverTexture(color: string, title: string, sub: string, num: string) {
   g.fillStyle = "#fff";
   g.font = "600 64px Georgia";
   title.split("\n").forEach((l, i) => g.fillText(l, 70, 170 + i * 72));
-  g.fillStyle = "#f2945a";
+  g.fillStyle = "#f4c21b";
   g.font = "bold 220px Georgia";
   g.textAlign = "right";
   g.fillText(num, 470, 630);
@@ -44,7 +44,7 @@ function pageTexture() {
   const g = c.getContext("2d")!;
   g.fillStyle = "#fffaf0";
   g.fillRect(0, 0, 512, 680);
-  g.fillStyle = "#1d3a32";
+  g.fillStyle = "#13265c";
   g.font = "600 46px Georgia";
   g.fillText("Contents", 50, 100);
   g.font = "26px Georgia";
@@ -53,7 +53,7 @@ function pageTexture() {
     g.fillStyle = "#3a4466";
     g.fillText(t, 50, y);
     g.fillText(String((i + 1) * 9), 430, y);
-    g.strokeStyle = "rgba(29,58,50,.25)";
+    g.strokeStyle = "rgba(19,38,92,.25)";
     g.setLineDash([3, 6]);
     g.beginPath();
     g.moveTo(60 + g.measureText(t).width, y);
@@ -72,7 +72,7 @@ function insideTexture() {
   const g = c.getContext("2d")!;
   g.fillStyle = "#efe4cc";
   g.fillRect(0, 0, 256, 340);
-  g.fillStyle = "rgba(29,58,50,.45)";
+  g.fillStyle = "rgba(19,38,92,.45)";
   g.font = "italic 20px Georgia";
   g.textAlign = "center";
   g.fillText("This book belongs to", 128, 160);
@@ -161,16 +161,16 @@ function Book({ color, title, sub, num, w = 1.6, d = 2.1, t = 0.28, position, ro
 }
 
 function PencilCup({ position }: { position: [number, number, number] }) {
-  const pencils = ["#d6452b", "#f2945a", "#1e4fd6", "#1f7a4d"];
+  const pencils = ["#d6452b", "#f4c21b", "#1e4fd6", "#1f7a4d"];
   return (
     <group position={position}>
       <mesh position={[0, 0.45, 0]}>
         <cylinderGeometry args={[0.36, 0.32, 0.9, 40, 1, true]} />
-        <meshStandardMaterial color="#1d3a32" roughness={0.35} side={THREE.DoubleSide} />
+        <meshStandardMaterial color="#13265c" roughness={0.35} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[0, 0.02, 0]}>
         <cylinderGeometry args={[0.32, 0.32, 0.04, 32]} />
-        <meshStandardMaterial color="#15211d" />
+        <meshStandardMaterial color="#0e1a3d" />
       </mesh>
       {pencils.map((c, i) => (
         <group key={c} position={[Math.cos(i * 1.7) * 0.14, 0.75, Math.sin(i * 1.7) * 0.14]} rotation={[Math.sin(i) * 0.18, 0, Math.cos(i * 2) * 0.2]}>
@@ -199,8 +199,8 @@ function Scene({ open, still }: { open: boolean; still: boolean }) {
     <>
       <ambientLight intensity={0.55} />
       <directionalLight position={[4, 7, 5]} intensity={2.2} shadow-mapSize={[1024, 1024]} />
-      <pointLight position={[-4, 2, -2]} intensity={18} color="#f2945a" />
-      <pointLight position={[3, 1, 4]} intensity={6} color="#b8e0cf" />
+      <pointLight position={[-4, 2, -2]} intensity={18} color="#f4c21b" />
+      <pointLight position={[3, 1, 4]} intensity={6} color="#bcd0ff" />
       <group ref={rig} position={[0, -0.9, 0]}>
         <Float speed={still ? 0 : 1.4} rotationIntensity={0.12} floatIntensity={0.35}>
           <Book color="#2a6b4f" title={"General\nScience"} sub="Class 6" num="6" position={[0, 0.14, 0]} rotation={[0, 0.12, 0]} delay={0.1} w={1.9} d={2.4} />
@@ -209,7 +209,7 @@ function Scene({ open, still }: { open: boolean; still: boolean }) {
           <Book color="#d6452b" title={"Mathe-\nmatics"} sub="Class 5" num="5" position={[0, 1.02, 0.05]} rotation={[0, -0.05, 0]} delay={0.85} openable open={open} w={1.6} d={2.1} />
         </Float>
         <Float speed={still ? 0 : 1.1} rotationIntensity={0.1} floatIntensity={0.25}>
-          <Book color="#2a5446" title={"English\nReader"} sub="Class 5" num="5" position={[0.9, 1.25, -1.6]} rotation={[Math.PI / 2 - 0.1, 0, -0.18]} delay={1.05} w={1.5} d={2.1} t={0.3} />
+          <Book color="#1b3478" title={"English\nReader"} sub="Class 5" num="5" position={[0.9, 1.25, -1.6]} rotation={[Math.PI / 2 - 0.1, 0, -0.18]} delay={1.05} w={1.5} d={2.1} t={0.3} />
         </Float>
         <PencilCup position={[2.15, 0, 0.5]} />
         <ContactShadows position={[0, 0, 0]} opacity={0.55} scale={9} blur={2.6} far={3} resolution={256} frames={still ? 1 : Infinity} color="#050b22" />

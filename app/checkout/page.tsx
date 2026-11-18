@@ -26,7 +26,7 @@ export default function Checkout() {
       <div className="mx-auto grid max-w-xl place-items-center px-4 py-24 text-center">
         <div className="[perspective:900px]">
           <motion.div initial={{ rotateY: -90, y: -60 }} animate={{ rotateY: -20, y: 0 }} transition={{ type: "spring", stiffness: 80, damping: 12 }} style={{ transformStyle: "preserve-3d" }}>
-            <Book3D color="#1d3a32" title="Order confirmed" label={done} num="✓" w={150} h={200} d={28} />
+            <Book3D color="#13265c" title="Order confirmed" label={done} num="✓" w={150} h={200} d={28} />
           </motion.div>
         </div>
         <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mt-10 font-display text-4xl">
@@ -54,7 +54,7 @@ export default function Checkout() {
             </div>
             {STEPS.map((s, i) => (
               <button key={s} onClick={() => i < step && setStep(i)} className="relative flex flex-col items-center gap-2 text-[12px]">
-                <motion.span animate={{ backgroundColor: i <= step ? "#1d3a32" : "#e6e3d5", color: i <= step ? "#fff" : "#15211d", scale: i === step ? 1.15 : 1 }} className="grid h-8 w-8 place-items-center rounded-full font-semibold">
+                <motion.span animate={{ backgroundColor: i <= step ? "#13265c" : "#ece5d8", color: i <= step ? "#fff" : "#0e1a3d", scale: i === step ? 1.15 : 1 }} className="grid h-8 w-8 place-items-center rounded-full font-semibold">
                   {i < step ? "✓" : i + 1}
                 </motion.span>
                 {s}

@@ -14,9 +14,9 @@ import { SectionTitle } from "./Departments";
 /* ---------------- Ready-made class sets ---------------- */
 
 const SETS = [
-  { school: "cgs", cls: "3", bg: "from-[#2a5446] to-[#1d3a32]" },
+  { school: "cgs", cls: "3", bg: "from-[#1b3478] to-[#13265c]" },
   { school: "nms", cls: "6", bg: "from-[#1e5a5e] to-[#123e40]" },
-  { school: "ana", cls: "KG", bg: "from-[#3f7a64] to-[#2a5446]" },
+  { school: "ana", cls: "KG", bg: "from-[#3f7a64] to-[#1b3478]" },
 ];
 
 export function ClassSets() {
@@ -40,7 +40,7 @@ export function ClassSets() {
           const total = list.reduce((a, l) => a + l.product.price * l.qty, 0);
           return (
             <Reveal key={s.school} delay={i * 0.1}>
-              <div className="group overflow-hidden rounded-3xl border border-line bg-paper transition-shadow duration-500 hover:shadow-[0_30px_50px_-25px_rgba(21,33,29,.4)]">
+              <div className="group overflow-hidden rounded-3xl border border-line bg-paper transition-shadow duration-500 hover:shadow-[0_30px_50px_-25px_rgba(14,26,61,.4)]">
                 <div className={`relative h-52 overflow-hidden bg-gradient-to-br ${s.bg} [perspective:900px]`}>
                   <span className="absolute left-4 top-4 z-10 rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold tracking-wider text-white ring-1 ring-white/20">{school.short}</span>
                   <div className="absolute inset-0 flex items-end justify-center pb-6">
@@ -268,8 +268,8 @@ export function HowItWorks() {
         {steps.map((s, i) => (
           <Reveal key={s.t} delay={i * 0.15}>
             <motion.div
-              initial={{ scale: 0.4, backgroundColor: "#e6e3d5" }}
-              whileInView={{ scale: 1, backgroundColor: "#f2945a" }}
+              initial={{ scale: 0.4, backgroundColor: "#ece5d8" }}
+              whileInView={{ scale: 1, backgroundColor: "#f4c21b" }}
               viewport={{ once: true, margin: "-120px" }}
               transition={{ delay: 0.3 + i * 0.35, type: "spring", stiffness: 260, damping: 14 }}
               className="relative grid h-10 w-10 place-items-center rounded-full font-display font-semibold"
@@ -298,10 +298,10 @@ export function Visit() {
           <motion.div style={{ y }} className="absolute -inset-y-10 inset-x-0 bg-brand">
             {/* stylised storefront */}
             <svg viewBox="0 0 400 320" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
-              <rect width="400" height="320" fill="#1d3a32" />
-              <rect x="30" y="60" width="340" height="230" fill="#2a5446" />
-              <rect x="30" y="40" width="340" height="40" fill="#f2945a" />
-              <text x="200" y="67" textAnchor="middle" fontFamily="Georgia" fontSize="20" fill="#15211d" fontWeight="700">
+              <rect width="400" height="320" fill="#13265c" />
+              <rect x="30" y="60" width="340" height="230" fill="#1b3478" />
+              <rect x="30" y="40" width="340" height="40" fill="#f4c21b" />
+              <text x="200" y="67" textAnchor="middle" fontFamily="Georgia" fontSize="20" fill="#0e1a3d" fontWeight="700">
                 HONORABLE BOOKS
               </text>
               {Array.from({ length: 4 }).map((_, r) =>
@@ -319,7 +319,7 @@ export function Visit() {
               {[0, 1, 2, 3].map((r) => (
                 <rect key={r} x="44" y={134 + r * 46} width="312" height="5" fill="#7a4722" />
               ))}
-              <rect x="0" y="290" width="400" height="30" fill="#15211d" />
+              <rect x="0" y="290" width="400" height="30" fill="#0e1a3d" />
             </svg>
           </motion.div>
         </div>

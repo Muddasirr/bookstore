@@ -27,7 +27,7 @@ export function ReadingRoom() {
 
   return (
     <section className="relative overflow-hidden bg-brand py-24 text-white">
-      <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,#2f6d58,transparent)] opacity-60" />
+      <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,#2a4fb0,transparent)] opacity-60" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionTitle light eyebrow="The reading room" title="Pull a book off the shelf" italic={["shelf"]} sub="Every textbook we stock, shelved by class. Lift one out and open it to look inside." />
@@ -104,7 +104,7 @@ function Shelf({ cls, index, onPick }: { cls: string; index: number; onPick: (p:
           exit={{ x: 60, opacity: 0, transition: { duration: 0.2 } }}
         >
           {[0, 1, 2, 3].map((k) => (
-            <div key={k} className="h-[10px] rounded-[2px]" style={{ width: 76 - k * 4, background: ["#2a66d9", "#1f7a4d", "#1d3a32", "#e2b100"][k], boxShadow: "inset 0 -2px 0 rgba(0,0,0,.25)" }} />
+            <div key={k} className="h-[10px] rounded-[2px]" style={{ width: 76 - k * 4, background: ["#2a66d9", "#1f7a4d", "#13265c", "#e2b100"][k], boxShadow: "inset 0 -2px 0 rgba(0,0,0,.25)" }} />
           ))}
         </motion.div>
       </div>
@@ -173,7 +173,7 @@ function Deco({ kind, delay }: { kind: number; delay: number }) {
   if (kind === 0)
     return (
       <motion.svg {...anim} viewBox="0 0 40 60" className="ml-2 h-16 w-10 shrink-0">
-        {["#d6452b", "#f2945a", "#1e4fd6"].map((c, i) => (
+        {["#d6452b", "#f4c21b", "#1e4fd6"].map((c, i) => (
           <rect key={c} x={10 + i * 7} y={4 + i * 3} width="5" height="34" fill={c} transform={`rotate(${(i - 1) * 9} 20 40)`} />
         ))}
         <rect x="6" y="30" width="28" height="30" rx="3" fill="#1f7a4d" />
@@ -182,8 +182,8 @@ function Deco({ kind, delay }: { kind: number; delay: number }) {
   if (kind === 1)
     return (
       <motion.svg {...anim} viewBox="0 0 60 30" className="ml-2 h-8 w-16 shrink-0" whileHover={{ rotate: [-4, 4, 0] }}>
-        <rect x="2" y="8" width="56" height="20" rx="4" fill="#1d3a32" />
-        <rect x="6" y="2" width="48" height="8" rx="3" fill="#f2945a" />
+        <rect x="2" y="8" width="56" height="20" rx="4" fill="#13265c" />
+        <rect x="6" y="2" width="48" height="8" rx="3" fill="#f4c21b" />
       </motion.svg>
     );
   if (kind === 2)

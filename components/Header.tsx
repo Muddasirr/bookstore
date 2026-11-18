@@ -103,8 +103,8 @@ function HeaderInner() {
               <LogoMark className={`transition-all duration-300 ${compact ? "h-9 w-9" : "h-11 w-11"}`} />
             </motion.span>
             <span className="leading-none">
-              <span className="block font-display text-[19px] font-semibold tracking-tight">Honorable</span>
-              <span className="block text-[10px] uppercase tracking-[0.22em] text-muted">Books & Uniforms</span>
+              <span className="block font-display text-[19px] font-semibold tracking-tight">Asif</span>
+              <span className="block text-[10px] uppercase tracking-[0.22em] text-muted">Book Store</span>
             </span>
           </Link>
           <Search />
@@ -168,7 +168,7 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
   const books = PRODUCTS.filter((p) => p.kind === "book");
   return (
     <motion.div
-      className="absolute left-4 right-4 top-full z-50 mt-1 overflow-hidden rounded-2xl border border-line bg-paper shadow-[0_30px_60px_-20px_rgba(21,33,29,.35)] sm:left-6 sm:right-6"
+      className="absolute left-4 right-4 top-full z-50 mt-1 overflow-hidden rounded-2xl border border-line bg-paper shadow-[0_30px_60px_-20px_rgba(14,26,61,.35)] sm:left-6 sm:right-6"
       initial={{ opacity: 0, y: -8, clipPath: "inset(0 0 100% 0 round 16px)" }}
       animate={{ opacity: 1, y: 0, clipPath: "inset(0 0 0% 0 round 16px)" }}
       exit={{ opacity: 0, y: -8, clipPath: "inset(0 0 100% 0 round 16px)" }}
@@ -229,7 +229,7 @@ function Search() {
       }}
     >
       <motion.div
-        animate={{ boxShadow: focus ? "0 0 0 4px rgba(242,148,90,.35)" : "0 0 0 0px rgba(242,148,90,0)" }}
+        animate={{ boxShadow: focus ? "0 0 0 4px rgba(244,194,27,.35)" : "0 0 0 0px rgba(244,194,27,0)" }}
         className="flex items-center rounded-full border border-line bg-paper pl-4 pr-1"
       >
         <input

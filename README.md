@@ -1,4 +1,4 @@
-# Honorable — Books & Uniforms
+# Asif Book Store
 
 A Next.js 15 (App Router) e-commerce storefront for school textbooks, uniforms and stationery, built around book-themed motion.
 
@@ -37,7 +37,7 @@ Catalogue data lives in `lib/data.ts`; all product imagery is generated (CSS-3D 
 
 ## Theme
 
-Pine & apricot: tokens live in `app/globals.css` under `@theme` — `brand` (#1d3a32 pine), `brand-2`, `accent` (#f2945a apricot), `accent-2`, `cream`, `paper`, `sand`, `line`, `ink`, `muted`. Use them as Tailwind classes (`bg-brand`, `text-accent`, …).
+Navy & mustard: tokens live in `app/globals.css` under `@theme` — `brand` (#13265c navy), `brand-2`, `accent` (#f4c21b mustard), `accent-2`, `cream`, `paper`, `sand`, `line`, `ink`, `muted`. Use them as Tailwind classes (`bg-brand`, `text-accent`, …). The logo is `public/honorlogo.jpeg`.
 
 ## Performance notes
 

@@ -8,7 +8,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const p = getProduct((await params).slug);
-  return { title: p ? `${p.name} — Honorable` : "Not found" };
+  return { title: p ? `${p.name} — Asif Book Store` : "Not found" };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {

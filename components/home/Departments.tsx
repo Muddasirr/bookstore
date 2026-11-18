@@ -104,7 +104,7 @@ function DeptCard({ d, children, className = "", delay, minH = "min-h-[240px]" }
     <Reveal delay={delay} className={className}>
       <Link
         href={`/shop?cat=${d.key}`}
-        className={`group relative block h-full ${minH} overflow-hidden rounded-3xl p-6 transition-shadow duration-500 hover:shadow-[0_30px_50px_-25px_rgba(21,33,29,.4)]`}
+        className={`group relative block h-full ${minH} overflow-hidden rounded-3xl p-6 transition-shadow duration-500 hover:shadow-[0_30px_50px_-25px_rgba(14,26,61,.4)]`}
         style={{ background: d.tint }}
       >
         <div className="relative z-10">

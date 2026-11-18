@@ -9,10 +9,11 @@ import { MotionProvider, SmoothScroll } from "@/components/motion";
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", style: ["normal", "italic"], axes: ["opsz"] });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-export const viewport = { themeColor: "#1d3a32" };
+export const viewport = { themeColor: "#13265c" };
 
 export const metadata: Metadata = {
-  title: "Honorable Books & Uniforms — Everything on your school list",
+  title: "Asif Book Store — Everything on your school list",
+  icons: { icon: "/honorlogo.jpeg", apple: "/honorlogo.jpeg" },
   description: "Textbooks, uniforms, registers and stationery for Karachi schools. Packed, covered, labelled and delivered.",
 };
 

@@ -20,7 +20,7 @@ export default function Template({ children }: { children: ReactNode }) {
         >
           <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-black/30 to-transparent" />
           <div className="grid h-full place-items-center">
-            <span className="font-display text-3xl italic text-accent/80">Honorable</span>
+            <span className="font-display text-3xl italic text-accent/80">Asif</span>
           </div>
         </motion.div>
       </div>

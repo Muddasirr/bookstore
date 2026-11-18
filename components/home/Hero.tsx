@@ -48,14 +48,14 @@ export function Hero() {
   return (
     <section ref={ref} className="relative overflow-hidden bg-brand text-white">
       {/* backdrop */}
-      <div className="absolute inset-0 bg-[radial-gradient(70%_80%_at_75%_40%,#2f6d58_0%,transparent_60%),radial-gradient(50%_60%_at_10%_100%,#0c1d18,transparent)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(70%_80%_at_75%_40%,#2a4fb0_0%,transparent_60%),radial-gradient(50%_60%_at_10%_100%,#0a1533,transparent)]" />
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden>
         {[0, 1, 2].map((i) => (
           <motion.path
             key={i}
             d={`M${700 + i * 90} 820 C ${760 + i * 80} ${380 - i * 60}, ${1100 + i * 40} ${120 - i * 30}, 1460 ${200 + i * 70}`}
             fill="none"
-            stroke={i === 1 ? "#f2945a" : "#ffffff"}
+            stroke={i === 1 ? "#f4c21b" : "#ffffff"}
             strokeOpacity={i === 1 ? 0.35 : 0.1}
             strokeWidth="1.5"
             initial={{ pathLength: 0 }}
