@@ -1,6 +1,6 @@
 # Asif Book Store
 
-[![CI](https://github.com/Muddasirr/bookstore/actions/workflows/ci.yml/badge.svg)](https://github.com/Muddasirr/bookstore/actions/workflows/ci.yml)
+[![CI](https://github.com/Muddasirr/school-supply-storefront/actions/workflows/ci.yml/badge.svg)](https://github.com/Muddasirr/school-supply-storefront/actions/workflows/ci.yml)
 
 An online storefront for a Karachi school-supply shop: textbooks, uniforms and stationery, with parents able to pick their child's school and class and get the whole book list in one go. Built in Next.js 15 around book-themed motion that stays fast on phones.
 
