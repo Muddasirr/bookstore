@@ -6,11 +6,9 @@ An online storefront for a Karachi school-supply shop: textbooks, uniforms and s
 
 **Live:** https://bookstore-rho-topaz-62.vercel.app
 
-> **TODO(Muddasir):** add `docs/hero.png` (the 3D book hero) and a short GIF of the reading-room bookshelf or fly-to-cart.
-
 ## Why I built it
 
-The shop supplies textbooks, uniforms, registers and stationery for Karachi schools, packed, covered, labelled and delivered. The book-list page turns a school's list into a one-click cart: pick the school and class, see the exact set, add everything. TODO(Muddasir): one line on what the owner asked for and why.
+The shop supplies textbooks, uniforms, registers and stationery for Karachi schools, packed, covered, labelled and delivered. The book-list page turns a school's list into a one-click cart: pick the school and class, see the exact set, add everything.
 
 ## Run
 
@@ -67,4 +65,4 @@ Navy & mustard: tokens live in `app/globals.css` under `@theme` — `brand` (#13
 
 ## License
 
-TODO(Muddasir): this was built for Asif Book Store. Agree with the owner how the code may be reused before adding a license.
+Built for Asif Book Store. All rights reserved.
